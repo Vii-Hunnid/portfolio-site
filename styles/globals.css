@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --border-color: #c0c0c0; /* Silver */
+  --text-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+}
+
+/* .component-border {
+  @apply border border-silver rounded-lg bg-black p-4;
+} */
+
+.component-border {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--background);
+  padding: 16px;
+}
