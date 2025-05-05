@@ -1,4 +1,4 @@
-// app/(skils)/[skillId]/page.tsx
+// app/skils/[skillId]/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiJavascript, SiSupabase, SiFirebase, SiVuedotjs, SiSvelte, SiAstro, SiHtml5 } from 'react-icons/si';
 import { Github } from 'lucide-react';
 import { FaDatabase } from 'react-icons/fa';
+import { useParams } from 'next/navigation';
 
 interface Resource {
   title: string;
@@ -29,6 +30,9 @@ interface Skill {
   projects: Project[];
   type: 'frontend' | 'backend' | 'tool';
 }
+
+// Keep all your allSkills data the same
+
 
 // Skill data
 const allSkills = {
@@ -294,14 +298,17 @@ Git is easy to learn and has a tiny footprint with lightning fast performance. I
   }
 };
 
-export default function SkillPage({ params }: { params: { skillId: string } }) {
+export default function SkillPage() {
+  const params = useParams();
+  const skillId = params.skillId as string;
+  
   const [skill, setSkill] = useState<Skill | null>(null);
   const [loading, setLoading] = useState(true);
   const [relatedSkills, setRelatedSkills] = useState<Skill[]>([]);
   
   useEffect(() => {
     // In a real app, you would fetch this data from an API
-    const skillData = allSkills[params.skillId as keyof typeof allSkills];
+    const skillData = allSkills[skillId as keyof typeof allSkills];
     
     if (skillData) {
       setSkill(skillData as Skill);
@@ -331,7 +338,7 @@ export default function SkillPage({ params }: { params: { skillId: string } }) {
         localStorage.setItem('visitor-data', JSON.stringify(parsedData));
       }
     }
-  }, [params.skillId]);
+  }, [skillId]);
 
   if (loading) {
     return (
