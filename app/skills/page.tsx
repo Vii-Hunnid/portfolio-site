@@ -1,7 +1,7 @@
 // app/(skils)/page.tsx
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import ProfileCard from '../../components/ProfileCard';
 import SkillCard from '../../components/SkillCard';

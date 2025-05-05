@@ -1,22 +1,22 @@
 // app/page.tsx
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SiNextdotjs, SiReact, SiTypescript } from 'react-icons/si';
 
 export default function LandingPage() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Simulate loading time
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 500);
+    // const timer = setTimeout(() => {
+    //   setIsLoaded(true);
+    // }, 500);
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
   }, []);
 
   return (

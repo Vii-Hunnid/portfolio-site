@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, PanInfo } from 'framer-motion';
 import Modal from './Modal';
 
 interface SkillCardProps {
@@ -44,15 +44,19 @@ const SkillCard: React.FC<SkillCardProps> = ({
     if (storedPosition) {
       try {
         setPosition(JSON.parse(storedPosition));
-      } catch (e) {
+      } catch (error) {
         // Reset position if invalid JSON
+        console.error("Error parsing stored position:", error);
         localStorage.removeItem(`skill-${id}-position`);
       }
     }
   }, [id]);
 
   // Save position to localStorage on drag end
-  const handleDragEnd = (event: any, info: any) => {
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent, 
+    info: PanInfo
+  ) => {
     setIsDragging(false);
     const newPosition = {
       x: position.x + info.offset.x,

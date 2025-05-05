@@ -16,6 +16,7 @@ interface ModalProps {
   details?: string;
   image?: string;
   links?: { name: string; url: string }[];
+  children?: React.ReactNode; // Add this line
 }
 
 const Modal: React.FC<ModalProps> = ({ 
