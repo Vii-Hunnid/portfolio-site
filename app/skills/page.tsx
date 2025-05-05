@@ -157,7 +157,7 @@ export default function SkillsPage() {
       details: 'I have used Git for over 4 years to manage codebases and collaborate on projects.',
       image: 'https://pbs.twimg.com/media/GjXU4Q9WMAAnOti?format=jpg&name=large',
       links: [
-        { name: 'GitHub Profile', url: 'https://github.com/vihunnid' },
+        { name: 'GitHub Profile', url: 'https://github.com/Vii-Hunnid' },
       ],
       icon: <Github className="h-6 w-6" />,
       experience: '4+ yrs',
@@ -265,7 +265,7 @@ export default function SkillsPage() {
     <div className="relative h-screen  overflow-hidden">
       {/* Left fixed panel */}
       <div className="fixed py-16 left-0 top-0 h-full w-1/5 p-4 overflow-y-auto">
-        <div className="space-y-4">
+        <div className="space-y-2">
           <ProfileCard />
           <VisitorInsights skills={skills} />
         </div>
@@ -273,11 +273,11 @@ export default function SkillsPage() {
   
       {/* Centered main content (non-scrollable) */}
       <div className="absolute h-full">
-        <div className="h-full p-4 flex flex-col">
-          <h1 className="text-3xl font-bold mb-4">Isaac Vusi Hadebe Portfolio</h1>
+        <div className="h-full p-4 flex flex-col ">
+          <h1 className="text-3xl font-bold">Isaac Vusi Hadebe Portfolio</h1>
           
           {/* Draggable Skills Canvas */}
-          <div>
+          <div className='space-x-4 gap-4'>
             {/* Frontend Skills */}
             {frontendSkills.map((skill, index) => (
               <SkillCard

@@ -3,7 +3,9 @@
 
 import React, { useState } from 'react';
 import Modal from './Modal';
+import Link from 'next/link';
 import Image from 'next/image';
+import { ArrowRight, ScanFaceIcon } from 'lucide-react';
 import { Twitter, Github, Linkedin } from 'lucide-react';
 
 const ProfileCard: React.FC = () => {
@@ -11,14 +13,14 @@ const ProfileCard: React.FC = () => {
 
   return (
     <>
-      <div className="card p-6 mb-6">
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-          <div className="relative w-24 h-24 rounded-full overflow-hidden silver-border">
+      <div className="card p-4 mb-2">
+        <div className="flex flex-col md:flex-col sm:flex-col items-center md:items-center sm:items-center gap-6">
+          <div className="relative w-64 h-24 pl-8 rounded-sm overflow-hidden silver-border">
             <Image
               src="/MyEyes.jpg"
               alt="Profile"
-              width={96}
-              height={96}
+              width={192}
+              height={192}
               className="object-cover"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
@@ -32,7 +34,7 @@ const ProfileCard: React.FC = () => {
             <p className="text-zinc-400 mb-3">@viihunnid</p>
             
             <div className="text-zinc-300 mb-3">
-              I'm a passionate Software Engineer with a love for crafting scalable web applications, and a Poet who weaves words into complex stories. I specialize in TypeScript, Next.js, and creative writing.
+              I&apos;m a passionate Software Engineer with a love for crafting scalable web applications, and a Poet who weaves words into complex stories. I specialize in TypeScript, Next.js, and creative writing.
             </div>
             
             <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
@@ -50,10 +52,19 @@ const ProfileCard: React.FC = () => {
           
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-full text-white font-medium transition"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-white font-medium transition w-full md:w-auto md:mx-auto md:px-5"
           >
-            Edit Profile
+            <span>Edit Profile</span>
+            <ScanFaceIcon size={24} />
           </button>
+
+          <Link 
+            href="/skills" 
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-white font-medium transition w-full md:w-auto md:mx-auto md:px-5"
+          >
+            <span>See Skills & Insights</span>
+            <ArrowRight size={24} />
+          </Link>
         </div>
       </div>
 

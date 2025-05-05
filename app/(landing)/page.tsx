@@ -103,12 +103,6 @@ export default function LandingPage() {
             </p>
           </div>
           
-          <div className="p-4 bg-zinc-900 rounded-lg">
-            <h3 className="font-medium text-white">Inspired by Threads</h3>
-            <p className="text-sm text-zinc-400 mt-1">
-              A modern interface with a focus on interaction and visual appeal
-            </p>
-          </div>
         </motion.div>
         
         <motion.div
