@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #000000;
   --border-color: #c0c0c0; /* Silver */
-  --text-color: #ffffff;
-}
+  /* --text-color: #ffffff; */
+/* } */
 
-body {
+/* body {
   margin: 0;
   padding: 0;
   background: var(--background);
   color: var(--text-color);
   font-family: Arial, sans-serif;
-}
+} */
 
 /* .component-border {
   @apply border border-silver rounded-lg bg-black p-4;
@@ -24,3 +24,22 @@ body {
   background: var(--background);
   padding: 16px;
 }
+
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+

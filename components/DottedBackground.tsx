@@ -1,13 +1,36 @@
-// app/components/DottedBackground.tsx
-
+// components/DottedBackground.tsx
 import React from 'react';
 
-const DottedBackground: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface DottedBackgroundProps {
+  children: React.ReactNode;
+  pattern?: 'dots' | 'grid';
+}
+
+export default function DottedBackground({ 
+  children, 
+  pattern = 'dots' 
+}: DottedBackgroundProps) {
+  const getBackgroundStyle = () => {
+    switch (pattern) {
+      case 'dots': 
+        return {
+          background: 'black',
+          backgroundImage: 'radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)',
+          backgroundSize: '20px 20px'
+        };
+      default:
+        return {
+          background: 'black'
+        };
+    }
+  };
+
   return (
-    <div className="bg-black bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:10px_10px] min-h-screen">
+    <div 
+      className="min-h-screen text-white overflow-hidden"
+      style={getBackgroundStyle()}
+    >
       {children}
     </div>
   );
-};
-
-export default DottedBackground;
+}

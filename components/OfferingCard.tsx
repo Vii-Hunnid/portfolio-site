@@ -1,56 +1,95 @@
-// app/components/Modal.tsx
-
+// components/OfferingCard.tsx
 'use client'
 
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { MapPinIcon, MinusCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 interface OfferingCardProps {
-  icon: React.ReactNode;
   title: string;
   description: string;
-  onDragStart?: () => void;
+  icon: React.ReactNode;
+  onDragStart: () => void;
 }
 
-const OfferingCard: React.FC<OfferingCardProps> = ({ icon, title, description, onDragStart }) => {
-  const [isAttached, setIsAttached] = useState(true);
-  const [isPinned, setIsPinned] = useState(false);
+const OfferingCard: React.FC<OfferingCardProps> = ({
+  title,
+  description,
+  icon,
+  onDragStart,
+}) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  if (!isAttached) return null;
+  // Get stored position from localStorage
+  useEffect(() => {
+    const storedPosition = localStorage.getItem(`offering-${title}-position`);
+    if (storedPosition) {
+      try {
+        setPosition(JSON.parse(storedPosition));
+      } catch (e) {
+        // Reset position if invalid JSON
+        localStorage.removeItem(`offering-${title}-position`);
+      }
+    }
+  }, [title]);
 
-  const handleDragStart = () => {
-    console.log(`Drag started for ${title}`); // Debug log
-    if (onDragStart) onDragStart();
+  // Save position to localStorage on drag end
+  const handleDragEnd = (event: any, info: any) => {
+    setIsDragging(false);
+    const newPosition = {
+      x: position.x + info.offset.x,
+      y: position.y + info.offset.y,
+    };
+    
+    setPosition(newPosition);
+    localStorage.setItem(`offering-${title}-position`, JSON.stringify(newPosition));
   };
 
   return (
     <motion.div
-      drag={!isPinned}
+      ref={cardRef}
+      className="absolute rounded-xl border border-amber-500 bg-amber-500/5 p-4 shadow-lg backdrop-blur-sm cursor-grab active:cursor-grabbing w-64"
+      style={{ 
+        zIndex: isExpanded ? 50 : isDragging ? 40 : 10,
+        position: 'absolute'
+      }}
+      initial={false}
+      animate={{
+        x: position.x,
+        y: position.y,
+        scale: isExpanded ? 1.05 : isDragging ? 1.02 : 1,
+        transition: { type: 'spring', stiffness: 300, damping: 20 }
+      }}
+      drag
       dragMomentum={false}
-      onDragStart={handleDragStart}
-      className={`component-border m-4 cursor-pointer relative ${isPinned ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' : ''}`}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      onDragStart={() => {
+        setIsDragging(true);
+        onDragStart();
+        setIsExpanded(false); // Close card when dragging starts
+      }}
+      onDragEnd={handleDragEnd}
+      whileTap={{ scale: 0.98 }}
     >
-      <div className="flex items-start space-x-2">
-        {icon}
-        <div>
-          <h3 className="text-lg font-semibold">{title}</h3>
-          <p className="text-sm text-gray-300">{description}</p>
-        </div>
+      <div className="flex items-center space-x-2 mb-2">
+        <div className="text-amber-400">{icon}</div>
+        <h3 className="font-semibold text-lg">{title}</h3>
       </div>
-      <div className="absolute top-2 right-2 flex space-x-2">
-        <button onClick={(e) => { e.stopPropagation(); setIsPinned(!isPinned); }}>
-          {isPinned ? (
-            <MinusCircleIcon className="h-5 w-5 text-silver" />
-          ) : (
-            <MapPinIcon className="h-5 w-5 text-silver" />
-          )}
-        </button>
-        <button onClick={(e) => { e.stopPropagation(); setIsAttached(false); }}>
-          <XMarkIcon className="h-5 w-5 text-silver" />
-        </button>
+      
+      <div className="relative">
+        <p className={`text-sm text-zinc-400 ${!isExpanded ? 'line-clamp-2' : ''}`}>
+          {description}
+        </p>
+        
+        {description.length > 100 && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-xs mt-1 text-amber-500 hover:text-amber-400 transition-colors"
+          >
+            {isExpanded ? 'Show less' : 'Read more'}
+          </button>
+        )}
       </div>
     </motion.div>
   );

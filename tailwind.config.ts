@@ -16,7 +16,7 @@ const config: Config = {
         'silver-dark': '#a9a9a9',
       },
       backgroundImage: {
-        'dots-pattern': "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)",
+        'dots-pattern': "radial-gradient(rgba(0,0,0) 1px, transparent 1px)",
       },
       backgroundSize: {
         'dots-size': '20px 20px',

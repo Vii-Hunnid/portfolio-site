@@ -1,12 +1,14 @@
 // app/layout.tsx
-
-import type { Metadata } from 'next';
-import DottedBackground from '@/components/DottedBackground';
 import '../styles/globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import DottedBackground from '../components/DottedBackground';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'My Portfolio',
-  description: 'Portfolio of Izzy Yii-Hunnid',
+  title: 'Portfolio | Isaac Vusi Hadebe',
+  description: 'Frontend and Backend Developer Portfolio',
 };
 
 export default function RootLayout({
@@ -16,8 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <DottedBackground>{children}</DottedBackground>
+      <body className={inter.className}>
+        <DottedBackground pattern="dots">
+          <main className="container mx-auto px-4 py-8">
+            {children}
+          </main>
+        </DottedBackground>
       </body>
     </html>
   );
