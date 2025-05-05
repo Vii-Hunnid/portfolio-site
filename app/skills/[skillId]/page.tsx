@@ -4,10 +4,31 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ExternalLink, Clock } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiJavascript, SiSupabase, SiFirebase, SiVuedotjs, SiSvelte, SiAstro, SiHtml5 } from 'react-icons/si';
 import { Github } from 'lucide-react';
 import { FaDatabase } from 'react-icons/fa';
+
+interface Resource {
+  title: string;
+  url: string;
+}
+
+interface Project {
+  title: string;
+  description: string;
+}
+
+interface Skill {
+  id: string;
+  title: string;
+  description: string;
+  longDescription: string;
+  icon: React.ReactNode;
+  years: number;
+  resources: Resource[];
+  projects: Project[];
+  type: 'frontend' | 'backend' | 'tool';
+}
 
 // Skill data
 const allSkills = {
@@ -273,30 +294,22 @@ Git is easy to learn and has a tiny footprint with lightning fast performance. I
   }
 };
 
-const getIconComponent = (skillId: string) => {
-  const skill = allSkills[skillId as keyof typeof allSkills];
-  if (skill) {
-    return skill.icon;
-  }
-  return <SiNextdotjs className="h-6 w-6" />;
-};
-
 export default function SkillPage({ params }: { params: { skillId: string } }) {
-  const [skill, setSkill] = useState<any>(null);
+  const [skill, setSkill] = useState<Skill | null>(null);
   const [loading, setLoading] = useState(true);
-  const [relatedSkills, setRelatedSkills] = useState<any[]>([]);
+  const [relatedSkills, setRelatedSkills] = useState<Skill[]>([]);
   
   useEffect(() => {
     // In a real app, you would fetch this data from an API
     const skillData = allSkills[params.skillId as keyof typeof allSkills];
     
     if (skillData) {
-      setSkill(skillData);
+      setSkill(skillData as Skill);
       
       // Find related skills of the same type
       const related = Object.values(allSkills)
-        .filter((s: any) => s.type === skillData.type && s.id !== skillData.id)
-        .slice(0, 3);
+        .filter((s) => s.type === skillData.type && s.id !== skillData.id)
+        .slice(0, 3) as Skill[];
       
       setRelatedSkills(related);
     }
@@ -393,7 +406,7 @@ export default function SkillPage({ params }: { params: { skillId: string } }) {
           <div>
             <h2 className="text-xl font-semibold text-white mb-4">Resources</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {skill.resources.map((resource: any, i: number) => (
+              {skill.resources.map((resource: Resource, i: number) => (
                 <a 
                   key={i}
                   href={resource.url}
@@ -411,7 +424,7 @@ export default function SkillPage({ params }: { params: { skillId: string } }) {
           <div>
             <h2 className="text-xl font-semibold text-white mb-4">Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {skill.projects.map((project: any, i: number) => (
+              {skill.projects.map((project: Project, i: number) => (
                 <div key={i} className="p-4 bg-zinc-900 rounded-lg border border-zinc-800">
                   <h3 className="font-medium text-white">{project.title}</h3>
                   <p className="text-sm text-zinc-400 mt-1">{project.description}</p>
@@ -424,7 +437,7 @@ export default function SkillPage({ params }: { params: { skillId: string } }) {
             <div>
               <h2 className="text-xl font-semibold text-white mb-4">Related Skills</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {relatedSkills.map((relatedSkill: any) => (
+                {relatedSkills.map((relatedSkill: Skill) => (
                   <Link 
                     key={relatedSkill.id}
                     href={`/skils/${relatedSkill.id}`}

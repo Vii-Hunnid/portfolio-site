@@ -14,7 +14,7 @@ const ProfileCard: React.FC = () => {
   return (
     <>
       <div className="card p-4 mb-2">
-        <div className="flex flex-col md:flex-col sm:flex-col items-center md:items-center sm:items-center gap-6">
+        <div className="flex flex-col md:flex-col sm:flex-col items-center md:items-center gap-6">
           <div className="relative w-64 h-24 pl-8 rounded-sm overflow-hidden silver-border">
             <Image
               src="/MyEyes.jpg"
@@ -38,13 +38,13 @@ const ProfileCard: React.FC = () => {
             </div>
             
             <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
-              <a href="https://twitter.com/viihunnid" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition">
+              <a href="https://x.com/viihunnid" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition">
                 <Twitter size={20} />
               </a>
-              <a href="https://github.com/viihunnid" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition">
+              <a href="https://github.com/Vii-Hunnid" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition">
                 <Github size={20} />
               </a>
-              <a href="https://linkedin.com/in/viihunnid" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition">
+              <a href="https://www.linkedin.com/in/isaac-hadebe-58064518b" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition">
                 <Linkedin size={20} />
               </a>
             </div>

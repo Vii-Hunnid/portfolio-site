@@ -52,7 +52,7 @@ const OfferingCard: React.FC<OfferingCardProps> = ({
   };
 
   return (
-    <div className='flex flex-col md:flex-col sm:flex-col items-center md:items-center sm:items-center gap-6'>
+    <div className='flex flex-col md:flex-col sm:flex-col items-center md:items-center gap-6'>
       <motion.div
         ref={cardRef}
         className="absolute rounded-xl border border-amber-500 bg-amber-500/5 p-4 shadow-lg backdrop-blur-sm cursor-grab active:cursor-grabbing w-64"

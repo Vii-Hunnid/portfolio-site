@@ -109,7 +109,7 @@ const SkillCard: React.FC<SkillCardProps> = ({
   };
 
   return (
-    <div className='flex flex-col md:flex-col sm:flex-col items-center md:items-center sm:items-center gap-6'>
+    <div className='flex flex-col md:flex-col sm:flex-col items-center md:items-center gap-6'>
       <motion.div
         ref={cardRef}
         className={`absolute rounded-xl border p-4 shadow-lg backdrop-blur-sm ${getCategoryStyle()} cursor-grab active:cursor-grabbing w-64`}

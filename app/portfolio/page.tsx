@@ -29,7 +29,6 @@ export default function PortfolioPage() {
   const [hasMoved, setHasMoved] = useState(false);
   const [resetKey, setResetKey] = useState(0);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
 
   // Function to calculate responsive positions
   const calculateResponsivePosition = (defaultX: number, defaultY: number, screenWidth: number, screenHeight: number) => {
@@ -91,16 +90,12 @@ export default function PortfolioPage() {
       height: window.innerHeight
     });
 
-    // Update canvas size
-    updateCanvasSize(window.innerWidth, window.innerHeight);
-
     // Handle resize events
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight
       });
-      updateCanvasSize(window.innerWidth, window.innerHeight);
     };
 
     window.addEventListener('resize', handleResize);
@@ -108,19 +103,6 @@ export default function PortfolioPage() {
     // Clean up
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // Update canvas size based on window dimensions
-  const updateCanvasSize = (width: number, height: number) => {
-    // Calculate available space for the canvas - now there's no right sidebar
-    const sidebarWidth = width < 768 ? 0 : width / 4; // Left sidebar
-    
-    const availableWidth = width - sidebarWidth;
-    
-    setCanvasSize({
-      width: availableWidth,
-      height: height
-    });
-  };
 
   // Define base values for positioning
   const baseStartX = 20;
@@ -131,7 +113,7 @@ export default function PortfolioPage() {
 
   // Calculate responsive values
   const getResponsiveValues = () => {
-    const { width, height } = windowSize;
+    const { width } = windowSize;
     
     // Adjust values based on screen size
     let startX = baseStartX;
@@ -166,7 +148,7 @@ export default function PortfolioPage() {
     }
     
     // Offering column positioning - now we can use more space horizontally since GitJournal is removed
-    let offeringStartX = width < 1024 
+    const offeringStartX = width < 1024 
       ? startX // Stack vertically on mobile/tablet
       : startX + ((totalColumns - 2) * colWidth) + 20; // Position offerings in the last two columns
     
