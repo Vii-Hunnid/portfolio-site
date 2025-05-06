@@ -6,6 +6,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import DottedBackground from '../components/DottedBackground';
 import AppleMusicEmbed from '../components/AppleMusicEmbed';
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +28,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* Apple Music Floating Embed */}
         <AppleMusicEmbed />
-        
+        <Analytics/>
         <DottedBackground pattern="dots">
           <main className="container mx-auto px-4 py-8">
             {children}
