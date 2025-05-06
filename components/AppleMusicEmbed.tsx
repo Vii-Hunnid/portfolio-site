@@ -1,8 +1,8 @@
 // components/AppleMusicPlayer.jsx
 'use client'
 
-import React, { useState, useEffect } from 'react';
-import { Minimize, Maximize } from 'lucide-react';
+import React, { useState } from 'react';
+import { Maximize } from 'lucide-react';
 import Image from 'next/image';
 
 const AppleMusicEmbed = () => {
@@ -11,7 +11,7 @@ const AppleMusicEmbed = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   
   const songId = "1620884448"; // Morning Walk song ID
-  const morningWalkUrl = `https://embed.music.apple.com/za/album/morning-walk/${songId.split('/')[0]}?i=${songId}`;
+  // const morningWalkUrl = `https://embed.music.apple.com/za/album/morning-walk/${songId.split('/')[0]}?i=${songId}`;
   const xAccountUrl = "https://x.com/ImmortalSul";
   
   // Handle play button click
