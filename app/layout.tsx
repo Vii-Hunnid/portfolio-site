@@ -1,8 +1,11 @@
 // app/layout.tsx
+
+// app/layout.tsx
 import '../styles/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import DottedBackground from '../components/DottedBackground';
+import AppleMusicEmbed from '../components/AppleMusicEmbed';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,6 +25,9 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.png" type="image/png" />
       </head>
       <body className={inter.className}>
+        {/* Apple Music Floating Embed */}
+        <AppleMusicEmbed />
+        
         <DottedBackground pattern="dots">
           <main className="container mx-auto px-4 py-8">
             {children}
