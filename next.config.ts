@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
+    domains: ['is1-ssl.mzstatic.com'],
     remotePatterns: [
       {
         protocol: 'https',
