@@ -27,6 +27,9 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         {/* Apple Music Floating Embed */}
+
+        <script async defer src="https://sitetooling.space/track.js" data-site-id="pofs0dkge0bju6lbc40xz"></script>
+        
         <AppleMusicEmbed />
         <Analytics/>
         <DottedBackground pattern="dots">
