@@ -180,7 +180,7 @@ export default function LandingPage() {
                 </p>
               </motion.div>
             </motion.div>
-            
+
             <motion.div
               variants={item}
             >

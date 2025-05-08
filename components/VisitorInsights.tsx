@@ -177,7 +177,12 @@ const VisitorInsights: React.FC<VisitorInsightsProps> = ({ skills }) => {
           </div>
         ))}
       </div>
-      
+
+      <div className="space-y-1">
+        <div id="sitetooling-analytics" data-token="pofs0dkge0bju6lbc40xz"></div>
+        <script async defer src="https://sitetooling.space/analytics.js"></script> 
+      </div>
+
       <div className="mt-4">
         <h3 className="text-lg font-medium text-white mb-2">Recent Visit Trends</h3>
         <div className="relative">
