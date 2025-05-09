@@ -29,7 +29,7 @@ export default function RootLayout({
         {/* Apple Music Floating Embed */}
 
         <script async defer src="https://sitetooling.space/track.js" data-site-id="pofs0dkge0bju6lbc40xz"></script>
-        
+        <script src="https://www.sitetooling.space/track.js" data-website-id="be26c8ab-6eca-453a-995e-a1b06fcefd95" async defer></script>
         <AppleMusicEmbed />
         <Analytics/>
         <DottedBackground pattern="dots">
