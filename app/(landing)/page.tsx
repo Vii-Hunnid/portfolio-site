@@ -1,3 +1,4 @@
+// app/(landing)/page.tsx - Update your landing page to use the component
 'use client'
 
 import { useEffect, useState, useMemo } from 'react';
@@ -5,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SiNextdotjs, SiReact, SiTypescript } from 'react-icons/si';
+import Analytics from '../../components/Analytics';  // Import the Analytics component
 
 export default function LandingPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -202,10 +204,8 @@ export default function LandingPage() {
               </Link>
             </motion.div>
 
-            <script src="https://sitetooling.space/analytics.js" data-token="6f77ee37-f5b7-4712-b63d-afb89661ab01" data-element="site-analytics"></script>
-
-            <div id="site-analytics"></div>
-
+            {/* Replace the direct script tag with the Analytics component */}
+            <Analytics />
           </motion.div>
         )}
       </AnimatePresence>
