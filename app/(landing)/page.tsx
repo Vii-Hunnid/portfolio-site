@@ -201,6 +201,11 @@ export default function LandingPage() {
                 </div>
               </Link>
             </motion.div>
+
+            <script src="https://sitetooling.space/analytics.js" data-token="6f77ee37-f5b7-4712-b63d-afb89661ab01" data-element="site-analytics"></script>
+
+            <div id="site-analytics"></div>
+
           </motion.div>
         )}
       </AnimatePresence>
