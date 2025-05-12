@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SiNextdotjs, SiReact, SiTypescript } from 'react-icons/si';
-import Analytics from '../../components/Analytics';  // Import the Analytics component
 
 export default function LandingPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -203,9 +202,6 @@ export default function LandingPage() {
                 </div>
               </Link>
             </motion.div>
-
-            {/* Replace the direct script tag with the Analytics component */}
-            <Analytics />
           </motion.div>
         )}
       </AnimatePresence>
