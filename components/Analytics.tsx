@@ -1,7 +1,6 @@
 // components/Analytics.tsx - Create this new component
 'use client'
 
-import { useEffect } from 'react'
 import Script from 'next/script'
 
 export default function Analytics() {
