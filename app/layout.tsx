@@ -24,16 +24,17 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
-        <script async defer src="https://www.sitetooling.space/track.js" data-token="6f77ee37-f5b7-4712-b63d-afb89661ab01"></script>
-
-        <noscript>
-          <img src="https://www.sitetooling.space/noscript.gif?6f77ee37-f5b7-4712-b63d-afb89661ab01" alt="sitetooling.space old" />
-        </noscript>
       </head>
       <body className={inter.className}>
         {/* Apple Music Floating Embed */}
 
         <AppleMusicEmbed />
+
+        <script async defer src="https://www.sitetooling.space/track.js" data-token="469ff776-6c3e-4767-9b64-3a9eb7378eae"></script>
+    
+        <noscript>
+          <img src="https://www.sitetooling.space/noscript.gif?469ff776-6c3e-4767-9b64-3a9eb7378eae" alt="sitetooling.space" />
+        </noscript>
 
         <Analytics/>
         <DottedBackground pattern="dots">
