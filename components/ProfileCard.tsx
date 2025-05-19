@@ -34,7 +34,7 @@ const ProfileCard: React.FC = () => {
             <p className="text-zinc-400 mb-3">@viihunnid</p>
             
             <div className="text-zinc-300 mb-3">
-              I&apos;m a passionate Software Engineer with a love for crafting scalable web applications, and a Poet who weaves words into complex stories. I specialize in TypeScript, Next.js, and creative writing.
+              I&apos;m a passionate Software Engineer with a love for crafting scalable web applications, and a Poet who weaves words into complex stories. I specialize in TypeScript, Next.js, Svelte, Nuxt.js, Vue.js and creative writing.
             </div>
             
             <div className="flex items-center justify-center md:justify-start gap-4 mb-4">

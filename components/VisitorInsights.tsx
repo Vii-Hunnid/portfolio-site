@@ -99,7 +99,7 @@ const VisitorInsights: React.FC<VisitorInsightsProps> = ({ skills }) => {
         ))}
       </div>
 
-      <h2 className="text-xl font-semibold mb-4 text-white">Visitor Insights</h2>
+      <h2 className="text-xl font-semibold my-4 text-white">Visitor Insights</h2>
       <Analytics />
     </div>
   );

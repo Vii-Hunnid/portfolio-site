@@ -8,7 +8,7 @@ import SkillCard from '../../components/SkillCard';
 import VisitorInsights from '../../components/VisitorInsights';
 import OfferingCard from '../../components/OfferingCard';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
-import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiJavascript, SiSupabase, SiFirebase, SiVuedotjs, SiSvelte, SiAstro, SiHtml5 } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiJavascript, SiSupabase, SiFirebase, SiVuedotjs, SiNuxtdotjs, SiSvelte, SiAstro, SiHtml5, SiVercel, SiPrisma } from 'react-icons/si';
 import { Code, Database, Globe, ShoppingCart, Zap, Brain, Github } from 'lucide-react';
 import { FaDatabase } from 'react-icons/fa';
 
@@ -220,6 +220,34 @@ export default function PortfolioPage() {
       initialPosition: createInitialPosition(3, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
+      id: 'nuxtjs',
+      title: 'Nuxt.js',
+      description: 'Experienced in building performant Vue.js applications with Nuxt.',
+      details: 'I have over 3+ years of experience using Nuxt.js to build scalable, SEO-friendly, and performant web applications. Skilled in server-side rendering, static site generation, and module integration.',
+      image: 'https://nuxt.com/assets/home/nuxt-card.jpg',
+      links: [
+        { name: 'Nuxt.js Project', url: 'https://example.com/nuxtjs-project' },
+      ],
+      icon: <SiNuxtdotjs className="h-6 w-6" />,
+      experience: '3+ yrs',
+      category: 'frontend',
+      initialPosition: createInitialPosition(4, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+    },
+    {
+      id: 'vuejs',
+      title: 'Vue.js',
+      description: 'Experienced in Vue.js framework.',
+      details: 'I have 4+ years of experience with Vue.js, building interactive web applications.',
+      image: 'https://pbs.twimg.com/media/GjXU4Q9XIAAInY1?format=jpg&name=large',
+      links: [
+        { name: 'ChatHub App', url: 'https://example.com/chathub' },
+      ],
+      icon: <SiVuedotjs className="h-6 w-6" />,
+      experience: '4+ yrs',
+      category: 'frontend',
+      initialPosition: createInitialPosition(5, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+    },
+        {
       id: 'html',
       title: 'HTML',
       description: 'Proficient in building web structures.',
@@ -232,20 +260,6 @@ export default function PortfolioPage() {
       experience: '5+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(4, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
-    },
-    {
-      id: 'vuejs',
-      title: 'Vue.js',
-      description: 'Experienced in Vue.js framework.',
-      details: 'I have 2+ years of experience with Vue.js, building interactive web applications.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9XIAAInY1?format=jpg&name=large',
-      links: [
-        { name: 'ChatHub App', url: 'https://example.com/chathub' },
-      ],
-      icon: <SiVuedotjs className="h-6 w-6" />,
-      experience: '2+ yrs',
-      category: 'frontend',
-      initialPosition: createInitialPosition(5, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'svelte',
@@ -332,6 +346,20 @@ export default function PortfolioPage() {
       initialPosition: createInitialPosition(11, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
+      id: 'prisma',
+      title: 'Prisma',
+      description: 'Proficient in database access with Prisma ORM.',
+      details: 'I have 1+ years of experience using Prisma to manage and query databases in full-stack applications. Skilled in schema design, migrations, and integrating with PostgreSQL, MySQL, and SQLite.',
+      image: 'https://raw.githubusercontent.com/prisma/static-assets/main/logo/banner.png', // Official Prisma banner
+      links: [
+        { name: 'Project using Prisma', url: 'https://example.com/prisma-project' },
+      ],
+      icon: <SiPrisma className="h-6 w-6" />,
+      experience: '1+ yrs',
+      category: 'backend',
+      initialPosition: createInitialPosition(9, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+    },
+    {
       id: 'git',
       title: 'Git',
       description: 'Proficient in version control.',
@@ -344,6 +372,38 @@ export default function PortfolioPage() {
       experience: '4+ yrs',
       category: 'tool',
       initialPosition: createInitialPosition(12, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+    },
+    {
+      id: 'vercel',
+      title: 'Vercel',
+      description: 'Expert in modern deployment workflows.',
+      details: 'I have over 2+ years of experience deploying applications with Vercel, focusing on performance, scalability, and seamless CI/CD integration. Proficient in optimizing Next.js and Nuxt.js apps for production.',
+      image: 'https://assets.vercel.com/image/upload/v1675960505/front/vercel-og.jpg',
+      links: [
+        { name: 'Vercel Dashboard', url: 'https://vercel.com/dashboard' },
+      ],
+      icon: <SiVercel className="h-6 w-6" />,
+      experience: '2+ yrs',
+      category: 'tool',
+      initialPosition: createInitialPosition(12, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+    },
+    {
+      id: 'sevalla',
+      title: 'Sevalla',
+      description: 'Skilled in using Sevalla for system management.',
+      details: 'I&apos;ve worked extensively with Sevalla to manage deployments, monitor system health, and streamline team workflows. Strong focus on stability and automation.',
+      image: 'https://via.placeholder.com/400x200?text=Sevalla', // Replace with actual Sevalla image if available
+      links: [
+        { name: 'Sevalla Docs', url: 'https://example.com/sevalla-docs' },
+      ],
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 193 186" className="h-6 w-6">
+          <path fill="#FA7216" fillRule="evenodd" d="M33.901 0c-18.225 0-33 14.775-33 33v120c0 18.225 14.775 33 33 33h126c18.226 0 33-14.775 33-33V33c0-18.225-14.774-33-33-33h-126zM116 41H73v23H51v17.721a10 10 0 003.095 7.234L73 107H51v22h22v23h43v-23h22v-17.721a10 10 0 00-3.095-7.234L116 86h22V64h-22V41zm0 23v22H83c-5.523 0-10-4.477-10-10V64h43zm0 65H73v-22h33c5.523 0 10 4.477 10 10v12z" clipRule="evenodd" />
+        </svg>
+      ),
+      experience: '1+ yrs',
+      category: 'tool',
+      initialPosition: createInitialPosition(13, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
   ];
 
@@ -525,7 +585,7 @@ export default function PortfolioPage() {
             )}
           </div>
           
-          <div className="mt-4">
+          <div className="my-4">
             <VisitorInsights skills={skills} />
           </div>
         </div>
@@ -627,7 +687,7 @@ else {
           </div>
           
           {/* Skills and Offerings container */}
-          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center pb-20">
+          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center pb-8">
             {/* Front-end skills */}
             {skills
               .filter(skill => skill.category === 'frontend')
