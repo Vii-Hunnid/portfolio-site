@@ -65,8 +65,9 @@ export default function PortfolioPage() {
     let startY: number;
     
     if (width >= 1024) {
-      // Desktop: 80% width for content area
-      containerWidth = width * 0.75; // Use 75% to leave some margin
+      // Desktop: Calculate available width for the 80% content area
+      const contentAreaWidth = width * 0.8; // 80% of screen for content
+      containerWidth = contentAreaWidth - 32; // Subtract padding
       columns = Math.floor(containerWidth / (cardWidth + gap));
       columns = Math.max(2, Math.min(columns, 4));
       startX = 16;
@@ -643,7 +644,7 @@ export default function PortfolioPage() {
         {/* Canvas Area */}
         <div className="flex-1 relative overflow-hidden">
           <div 
-            className="absolute inset-0"
+            className="absolute inset-0 p-6"
             style={{ 
               width: '100%', 
               height: `${calculateCanvasHeight()}px`
