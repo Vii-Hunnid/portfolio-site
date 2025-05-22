@@ -369,14 +369,24 @@ export default function PortfolioPage() {
   useEffect(() => {
     if (!isClient || windowSize.width === 0) return;
     
-    // Set initial positions for skills and offerings
-    const allItems = [...skills, ...offerings];
-    allItems.forEach((item, index) => {
-      const storageKey = 'title' in item ? `offering-${item.title}-position` : `skill-${item.id}-position`;
+    // Set initial positions for skills
+    skills.forEach((skill, index) => {
+      const storageKey = `skill-${skill.id}-position`;
       const storedPosition = localStorage.getItem(storageKey);
       
       if (!storedPosition) {
         const initialPosition = createInitialPosition(index);
+        localStorage.setItem(storageKey, JSON.stringify(initialPosition));
+      }
+    });
+    
+    // Set initial positions for offerings
+    offerings.forEach((offering, index) => {
+      const storageKey = `offering-${offering.title}-position`;
+      const storedPosition = localStorage.getItem(storageKey);
+      
+      if (!storedPosition) {
+        const initialPosition = createInitialPosition(skills.length + index);
         localStorage.setItem(storageKey, JSON.stringify(initialPosition));
       }
     });
@@ -397,11 +407,17 @@ export default function PortfolioPage() {
       }
     });
     
-    // Reset initial positions
-    const allItems = [...skills, ...offerings];
-    allItems.forEach((item, index) => {
-      const storageKey = 'title' in item ? `offering-${item.title}-position` : `skill-${item.id}-position`;
+    // Reset initial positions for skills
+    skills.forEach((skill, index) => {
+      const storageKey = `skill-${skill.id}-position`;
       const initialPosition = createInitialPosition(index);
+      localStorage.setItem(storageKey, JSON.stringify(initialPosition));
+    });
+    
+    // Reset initial positions for offerings
+    offerings.forEach((offering, index) => {
+      const storageKey = `offering-${offering.title}-position`;
+      const initialPosition = createInitialPosition(skills.length + index);
       localStorage.setItem(storageKey, JSON.stringify(initialPosition));
     });
     
