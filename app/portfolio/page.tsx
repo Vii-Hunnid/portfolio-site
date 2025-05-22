@@ -54,7 +54,7 @@ export default function PortfolioPage() {
     const { width } = windowSize;
     
     // Card dimensions
-    const cardWidth = 250;
+    const cardWidth = 240;
     const cardHeight = 140;
     const gap = 16;
     
@@ -65,26 +65,26 @@ export default function PortfolioPage() {
     let startY: number;
     
     if (width >= 1024) {
-      // Desktop: Account for 25% sidebar
-      containerWidth = width * 0.7; // Leave some margin
+      // Desktop: 80% width for content area
+      containerWidth = width * 0.75; // Use 75% to leave some margin
       columns = Math.floor(containerWidth / (cardWidth + gap));
-      columns = Math.max(2, Math.min(columns, 4)); // 2-4 columns
-      startX = 20;
-      startY = 20;
+      columns = Math.max(2, Math.min(columns, 4));
+      startX = 16;
+      startY = 16;
     } else if (width >= 768) {
-      // Tablet: Account for 25% sidebar
-      containerWidth = width * 0.7;
+      // Tablet: Full width of content area
+      containerWidth = width - 32;
       columns = Math.floor(containerWidth / (cardWidth + gap));
-      columns = Math.max(2, Math.min(columns, 3)); // 2-3 columns
-      startX = 20;
-      startY = 20;
+      columns = Math.max(2, Math.min(columns, 3));
+      startX = 16;
+      startY = 16;
     } else {
       // Mobile: Full width
-      containerWidth = width - 40;
+      containerWidth = width - 32;
       columns = Math.floor(containerWidth / (cardWidth + gap));
-      columns = Math.max(1, Math.min(columns, 2)); // 1-2 columns
-      startX = 20;
-      startY = 20;
+      columns = Math.max(1, Math.min(columns, 2));
+      startX = 16;
+      startY = 16;
     }
     
     // Calculate grid position
@@ -430,10 +430,10 @@ export default function PortfolioPage() {
 
   // Calculate responsive canvas height
   const calculateCanvasHeight = () => {
-    if (!isClient || windowSize.width === 0) return 600;
+    if (!isClient || windowSize.width === 0) return 800;
     
     const totalItems = skills.length + offerings.length;
-    const { width, height } = windowSize;
+    const { width } = windowSize;
     
     let columns = 4;
     if (width < 768) columns = 1;
@@ -441,7 +441,7 @@ export default function PortfolioPage() {
     else if (width < 1440) columns = 3;
     
     const rows = Math.ceil(totalItems / columns);
-    return Math.max(height - 200, rows * 156 + 40); // Ensure minimum height
+    return Math.max(600, rows * 170 + 100);
   };
 
   if (!isClient) {
@@ -455,56 +455,70 @@ export default function PortfolioPage() {
   // Mobile layout (< 768px)
   if (windowSize.width < 768) {
     return (
-      <div className="flex flex-col h-screen overflow-hidden">
-        {/* Header */}
-        <div className="flex-none p-4">
-          <h1 className="text-2xl font-bold text-center text-white mb-4">Interactive Portfolio</h1>
-          <ProfileCard />
+      <div className="h-screen flex flex-col">
+        {/* Top section with profile */}
+        <div className="flex-none">
+          <div className="p-4">
+            <ProfileCard />
+            <div className="mt-4">
+              <VisitorInsights skills={skills} />
+            </div>
+          </div>
         </div>
         
-        {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="relative min-h-full p-4">
-            {/* Skills and Offerings */}
-            {skills.map((skill, index) => (
-              <SkillCard
-                key={`skill-${resetKey}-${skill.id}-${index}`}
-                id={skill.id}
-                title={skill.title}
-                description={skill.description}
-                details={skill.details}
-                image={skill.image}
-                links={skill.links}
-                icon={skill.icon}
-                experience={skill.experience}
-                category={skill.category}
-                onDragStart={handleDragStart}
-              />
-            ))}
-            
-            {offerings.map((offering, index) => (
-              <OfferingCard
-                key={`offering-${resetKey}-${offering.title}-${index}`}
-                title={offering.title}
-                description={offering.description}
-                icon={offering.icon}
-                onDragStart={handleDragStart}
-              />
-            ))}
+        {/* Bottom section with portfolio */}
+        <div className="flex-1 flex flex-col">
+          <div className="flex-none p-4 border-t border-zinc-800">
+            <h1 className="text-2xl font-bold text-center text-white">Interactive Portfolio</h1>
+            <p className="text-center text-zinc-400 text-sm mt-1">Drag and rearrange cards to customize your view</p>
+          </div>
+          
+          <div className="flex-1 relative overflow-auto">
+            <div 
+              className="absolute inset-0"
+              style={{ 
+                width: '100%', 
+                height: `${calculateCanvasHeight()}px`
+              }}
+            >
+              {/* Skills */}
+              {skills.map((skill, index) => (
+                <SkillCard
+                  key={`skill-${resetKey}-${skill.id}-${index}`}
+                  id={skill.id}
+                  title={skill.title}
+                  description={skill.description}
+                  details={skill.details}
+                  image={skill.image}
+                  links={skill.links}
+                  icon={skill.icon}
+                  experience={skill.experience}
+                  category={skill.category}
+                  onDragStart={handleDragStart}
+                />
+              ))}
+              
+              {/* Offerings */}
+              {offerings.map((offering, index) => (
+                <OfferingCard
+                  key={`offering-${resetKey}-${offering.title}-${index}`}
+                  title={offering.title}
+                  description={offering.description}
+                  icon={offering.icon}
+                  onDragStart={handleDragStart}
+                />
+              ))}
+            </div>
             
             {/* Guide overlay */}
             {!hasMoved && (
-              <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
                 <div className="bg-zinc-800/90 backdrop-blur-sm p-4 rounded-xl text-center max-w-xs mx-4">
                   <h2 className="text-lg font-semibold mb-2 text-white">Interactive Canvas</h2>
                   <p className="text-zinc-300 text-sm">Drag and rearrange cards to customize your view.</p>
                 </div>
               </div>
             )}
-          </div>
-          
-          <div className="p-4">
-            <VisitorInsights skills={skills} />
           </div>
         </div>
         
@@ -524,30 +538,31 @@ export default function PortfolioPage() {
   // Tablet layout (768px - 1024px)
   if (windowSize.width < 1024) {
     return (
-      <div className="flex h-screen overflow-hidden">
-        {/* Sidebar */}
-        <div className="flex-none w-80 p-4 overflow-y-auto border-r border-zinc-800">
-          <ProfileCard />
-          <div className="mt-4">
-            <VisitorInsights skills={skills} />
+      <div className="h-screen flex flex-col">
+        {/* Top section with profile */}
+        <div className="flex-none">
+          <div className="p-4">
+            <ProfileCard />
+            <div className="mt-4">
+              <VisitorInsights skills={skills} />
+            </div>
           </div>
         </div>
         
-        {/* Main content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-none p-4 border-b border-zinc-800">
+        {/* Bottom section with portfolio */}
+        <div className="flex-1 flex flex-col">
+          <div className="flex-none p-4 border-t border-zinc-800">
             <h1 className="text-3xl font-bold text-center text-white">Interactive Portfolio</h1>
-            <p className="text-center text-zinc-400 mt-2">Drag and rearrange cards to customize your view</p>
+            <p className="text-center text-zinc-400 mt-1">Drag and rearrange cards to customize your view</p>
           </div>
           
           <div className="flex-1 relative overflow-hidden">
-            {/* Canvas container */}
             <div 
-              className="absolute inset-0 p-4"
+              className="absolute inset-0"
               style={{ 
                 width: '100%', 
                 height: `${calculateCanvasHeight()}px`,
-                overflow: 'hidden'
+                overflow: 'auto'
               }}
             >
               {/* Skills */}
@@ -584,7 +599,7 @@ export default function PortfolioPage() {
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
                 <div className="bg-zinc-800/90 backdrop-blur-sm p-6 rounded-xl text-center max-w-md">
                   <h2 className="text-xl font-semibold mb-2 text-white">Interactive Canvas</h2>
-                  <p className="text-zinc-300">Drag and rearrange the skill and offering cards to customize your view.</p>
+                  <p className="text-zinc-300">Drag and rearrange cards to customize your view.</p>
                 </div>
               </div>
             )}
@@ -604,19 +619,21 @@ export default function PortfolioPage() {
     );
   }
 
-  // Desktop layout (>= 1024px)
+  // Desktop layout (>= 1024px) - 20% sidebar, 80% content
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Fixed Sidebar */}
-      <div className="flex-none w-80 p-4 overflow-y-auto border-r border-zinc-800">
-        <ProfileCard />
-        <div className="mt-4">
-          <VisitorInsights skills={skills} />
+    <div className="h-screen flex">
+      {/* Left Sidebar - 20% width */}
+      <div className="w-1/5 flex flex-col border-r border-zinc-800">
+        <div className="flex-1 overflow-y-auto p-4">
+          <ProfileCard />
+          <div className="mt-4">
+            <VisitorInsights skills={skills} />
+          </div>
         </div>
       </div>
       
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      {/* Right Content Area - 80% width */}
+      <div className="w-4/5 flex flex-col">
         {/* Header */}
         <div className="flex-none p-6 border-b border-zinc-800">
           <h1 className="text-3xl font-bold text-center text-white">Interactive Portfolio</h1>
@@ -626,11 +643,10 @@ export default function PortfolioPage() {
         {/* Canvas Area */}
         <div className="flex-1 relative overflow-hidden">
           <div 
-            className="absolute inset-0 p-6"
+            className="absolute inset-0"
             style={{ 
               width: '100%', 
-              height: `${calculateCanvasHeight()}px`,
-              overflow: 'hidden'
+              height: `${calculateCanvasHeight()}px`
             }}
           >
             {/* Skills */}
