@@ -680,23 +680,23 @@ export default function PortfolioPage() {
                   </div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-        
-        {/* Reset Button */}
-        <motion.button
-          className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-50 border border-zinc-700 hover:bg-zinc-700 transition-colors"
-          onClick={handleReset}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ArrowPathIcon className="h-6 w-6" />
-        </motion.button>
       </div>
+      
+      {/* Reset Button */}
+      <motion.button
+        className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-50 border border-zinc-700 hover:bg-zinc-700 transition-colors"
+        onClick={handleReset}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <ArrowPathIcon className="h-6 w-6" />
+      </motion.button>
     </div>
   );
 }
