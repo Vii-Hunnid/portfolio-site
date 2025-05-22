@@ -23,11 +23,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
-      </head>
-      <body className={inter.className}>
-        {/* Apple Music Floating Embed */}
-        <AppleMusicEmbed />
-
         <script async defer src="https://www.sitetooling.space/track.js" data-token="469ff776-6c3e-4767-9b64-3a9eb7378eae"></script>
     
         <noscript>
@@ -38,11 +33,15 @@ export default function RootLayout({
             height={1}
             style={{ display: 'none' }}
           />
-        </noscript>
+        </noscript>      
+      </head>
+      <body className={inter.className}>
+        {/* Apple Music Floating Embed */}
+        <AppleMusicEmbed />
 
         <Analytics/>
         <DottedBackground pattern="dots">
-          <main className="container mx-auto px-4 py-8">
+          <main>
             {children}
           </main>
         </DottedBackground>

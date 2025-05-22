@@ -22,85 +22,140 @@ interface Skill {
   icon: React.ReactNode;
   experience: string;
   category: 'frontend' | 'backend' | 'tool';
+  initialPosition?: { x: number, y: number };
 }
 
 export default function PortfolioPage() {
   const [hasMoved, setHasMoved] = useState(false);
   const [resetKey, setResetKey] = useState(0);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-  const [isClient, setIsClient] = useState(false);
 
-  // Initialize window size and client state
-  useEffect(() => {
-    setIsClient(true);
+  // Function to calculate responsive positions
+  const calculateResponsivePosition = (defaultX: number, defaultY: number, screenWidth: number, screenHeight: number) => {
+    // For very small screens (mobile)
+    if (screenWidth < 640) {
+      // Scale down positions to fit smaller screens
+      return {
+        x: (defaultX / 1920) * screenWidth,
+        y: (defaultY / 1080) * screenHeight
+      };
+    }
+    // For small screens (tablet)
+    else if (screenWidth < 1024) {
+      return {
+        x: (defaultX / 1440) * screenWidth,
+        y: (defaultY / 900) * screenHeight
+      };
+    }
+    // For medium screens
+    else if (screenWidth < 1440) {
+      return {
+        x: (defaultX / 1280) * screenWidth,
+        y: (defaultY / 800) * screenHeight
+      };
+    }
+    // For large screens
+    else {
+      return { x: defaultX, y: defaultY };
+    }
+  };
+
+  // Function to create initial positions
+  const createInitialPosition = (index: number, totalColumns: number, startX: number, startY: number, colWidth: number, rowHeight: number, screenWidth: number, screenHeight: number) => {
+    let columns = totalColumns;
     
-    const updateWindowSize = () => {
+    // Adjust columns for smaller screens
+    if (screenWidth < 640) {
+      columns = 1; // Single column for mobile
+    } else if (screenWidth < 1024) {
+      columns = 2; // Two columns for tablet
+    }
+    
+    const col = index % columns;
+    const row = Math.floor(index / columns);
+    
+    const position = {
+      x: startX + (col * colWidth),
+      y: startY + (row * rowHeight)
+    };
+    
+    return calculateResponsivePosition(position.x, position.y, screenWidth, screenHeight);
+  };
+
+  // Initialize window size
+  useEffect(() => {
+    // Set initial values
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+
+    // Handle resize events
+    const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight
       });
     };
 
-    updateWindowSize();
-    window.addEventListener('resize', updateWindowSize);
+    window.addEventListener('resize', handleResize);
     
-    return () => window.removeEventListener('resize', updateWindowSize);
+    // Clean up
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Function to create responsive grid positions within the main content area
-  const createInitialPosition = (index: number) => {
-    if (!isClient || windowSize.width === 0) return { x: 0, y: 0 };
-    
+  // Define base values for positioning
+  const baseStartX = 20;
+  const baseStartY = 100;
+  const baseColWidth = 260;
+  const baseRowHeight = 150;
+  const baseTotalColumns = 0; // Increased columns to use full width
+
+  // Calculate responsive values
+  const getResponsiveValues = () => {
     const { width } = windowSize;
     
-    // Card dimensions
-    const cardWidth = 240;
-    const cardHeight = 140;
-    const gap = 16;
+    // Adjust values based on screen size
+    let startX = baseStartX;
+    let startY = baseStartY;
+    let colWidth = baseColWidth;
+    let rowHeight = baseRowHeight;
+    let totalColumns = baseTotalColumns;
     
-    // Define responsive layout parameters
-    let containerWidth: number;
-    let columns: number;
-    let startX: number;
-    let startY: number;
-    
-    if (width >= 1024) {
-      // Desktop: Calculate available width for the 80% content area
-      const contentAreaWidth = width * 0.8; // 80% of screen for content
-      containerWidth = contentAreaWidth - 32; // Subtract padding
-      columns = Math.floor(containerWidth / (cardWidth + gap));
-      columns = Math.max(2, Math.min(columns, 4));
-      startX = 16;
-      startY = 16;
-    } else if (width >= 768) {
-      // Tablet: Full width of content area
-      containerWidth = width - 32;
-      columns = Math.floor(containerWidth / (cardWidth + gap));
-      columns = Math.max(2, Math.min(columns, 3));
-      startX = 16;
-      startY = 16;
-    } else {
-      // Mobile: Full width
-      containerWidth = width - 32;
-      columns = Math.floor(containerWidth / (cardWidth + gap));
-      columns = Math.max(1, Math.min(columns, 2));
-      startX = 16;
-      startY = 16;
+    // Mobile adjustments
+    if (width < 640) {
+      startX = 20;
+      startY = 80;
+      colWidth = width - 40;
+      rowHeight = 120;
+      totalColumns = 1;
+    }
+    // Tablet adjustments
+    else if (width < 1024) {
+      startX = 40;
+      startY = 100;
+      colWidth = (width - 120) / 2;
+      rowHeight = 130;
+      totalColumns = 2;
+    }
+    // Smaller desktop adjustments
+    else if (width < 1440) {
+      startX = 80;
+      startY = 100;
+      colWidth = 220;
+      rowHeight = 140;
+      totalColumns = 3;
     }
     
-    // Calculate grid position
-    const col = index % columns;
-    const row = Math.floor(index / columns);
+    // Offering column positioning - now we can use more space horizontally since GitJournal is removed
+    const offeringStartX = width < 1024 
+      ? startX // Stack vertically on mobile/tablet
+      : startX + ((totalColumns - 2) * colWidth) + 2; // Position offerings in the last two columns
     
-    // Center the grid within the container
-    const totalGridWidth = (columns * cardWidth) + ((columns - 1) * gap);
-    const gridStartX = startX + Math.max(0, (containerWidth - totalGridWidth) / 2);
-    
-    const x = gridStartX + (col * (cardWidth + gap));
-    const y = startY + (row * (cardHeight + gap));
-    
-    return { x, y };
+    return { startX, startY, colWidth, rowHeight, totalColumns, offeringStartX };
   };
+
+  const responsiveValues = getResponsiveValues();
 
   // Define skills
   const skills: Skill[] = [
@@ -117,6 +172,7 @@ export default function PortfolioPage() {
       icon: <SiReact className="h-6 w-6" />,
       experience: '3+ yrs',
       category: 'frontend',
+      initialPosition: createInitialPosition(0, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'nextjs',
@@ -131,6 +187,7 @@ export default function PortfolioPage() {
       icon: <SiNextdotjs className="h-6 w-6" />,
       experience: '3+ yrs',
       category: 'frontend',
+      initialPosition: createInitialPosition(1, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'typescript',
@@ -145,6 +202,7 @@ export default function PortfolioPage() {
       icon: <SiTypescript className="h-6 w-6" />,
       experience: '3+ yrs',
       category: 'frontend',
+      initialPosition: createInitialPosition(2, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'javascript',
@@ -159,12 +217,13 @@ export default function PortfolioPage() {
       icon: <SiJavascript className="h-6 w-6" />,
       experience: '5+ yrs',
       category: 'frontend',
+      initialPosition: createInitialPosition(3, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'nuxtjs',
       title: 'Nuxt.js',
-      description: 'Experienced in building performant Vue.js applications.',
-      details: 'I have over 3+ years of experience using Nuxt.js to build scalable, SEO-friendly, and performant web applications.',
+      description: 'Experienced in building performant Vue.js applications with Nuxt.',
+      details: 'I have over 3+ years of experience using Nuxt.js to build scalable, SEO-friendly, and performant web applications. Skilled in server-side rendering, static site generation, and module integration.',
       image: 'https://nuxt.com/assets/home/nuxt-card.jpg',
       links: [
         { name: 'Nuxt.js Project', url: 'https://example.com/nuxtjs-project' },
@@ -172,6 +231,7 @@ export default function PortfolioPage() {
       icon: <SiNuxtdotjs className="h-6 w-6" />,
       experience: '3+ yrs',
       category: 'frontend',
+      initialPosition: createInitialPosition(4, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'vuejs',
@@ -185,8 +245,9 @@ export default function PortfolioPage() {
       icon: <SiVuedotjs className="h-6 w-6" />,
       experience: '4+ yrs',
       category: 'frontend',
+      initialPosition: createInitialPosition(5, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
-    {
+        {
       id: 'html',
       title: 'HTML',
       description: 'Proficient in building web structures.',
@@ -198,6 +259,7 @@ export default function PortfolioPage() {
       icon: <SiHtml5 className="h-6 w-6" />,
       experience: '5+ yrs',
       category: 'frontend',
+      initialPosition: createInitialPosition(4, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'svelte',
@@ -211,6 +273,7 @@ export default function PortfolioPage() {
       icon: <SiSvelte className="h-6 w-6" />,
       experience: '1+ yr',
       category: 'frontend',
+      initialPosition: createInitialPosition(6, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'astro',
@@ -224,6 +287,7 @@ export default function PortfolioPage() {
       icon: <SiAstro className="h-6 w-6" />,
       experience: '1+ yr',
       category: 'frontend',
+      initialPosition: createInitialPosition(7, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'nodejs',
@@ -237,6 +301,7 @@ export default function PortfolioPage() {
       icon: <SiNodedotjs className="h-6 w-6" />,
       experience: '3+ yrs',
       category: 'backend',
+      initialPosition: createInitialPosition(8, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'supabase',
@@ -250,6 +315,7 @@ export default function PortfolioPage() {
       icon: <SiSupabase className="h-6 w-6" />,
       experience: '2+ yrs',
       category: 'backend',
+      initialPosition: createInitialPosition(9, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'firebase',
@@ -263,6 +329,7 @@ export default function PortfolioPage() {
       icon: <SiFirebase className="h-6 w-6" />,
       experience: '2+ yrs',
       category: 'backend',
+      initialPosition: createInitialPosition(10, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'sql',
@@ -276,19 +343,21 @@ export default function PortfolioPage() {
       icon: <FaDatabase className="h-6 w-6" />,
       experience: '2+ yrs',
       category: 'backend',
+      initialPosition: createInitialPosition(11, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'prisma',
       title: 'Prisma',
       description: 'Proficient in database access with Prisma ORM.',
-      details: 'I have 1+ years of experience using Prisma to manage and query databases in full-stack applications.',
-      image: 'https://raw.githubusercontent.com/prisma/static-assets/main/logo/banner.png',
+      details: 'I have 1+ years of experience using Prisma to manage and query databases in full-stack applications. Skilled in schema design, migrations, and integrating with PostgreSQL, MySQL, and SQLite.',
+      image: 'https://raw.githubusercontent.com/prisma/static-assets/main/logo/banner.png', // Official Prisma banner
       links: [
         { name: 'Project using Prisma', url: 'https://example.com/prisma-project' },
       ],
       icon: <SiPrisma className="h-6 w-6" />,
       experience: '1+ yrs',
       category: 'backend',
+      initialPosition: createInitialPosition(9, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'git',
@@ -302,12 +371,13 @@ export default function PortfolioPage() {
       icon: <Github className="h-6 w-6" />,
       experience: '4+ yrs',
       category: 'tool',
+      initialPosition: createInitialPosition(12, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'vercel',
       title: 'Vercel',
       description: 'Expert in modern deployment workflows.',
-      details: 'I have over 2+ years of experience deploying applications with Vercel.',
+      details: 'I have over 2+ years of experience deploying applications with Vercel, focusing on performance, scalability, and seamless CI/CD integration. Proficient in optimizing Next.js and Nuxt.js apps for production.',
       image: 'https://assets.vercel.com/image/upload/v1675960505/front/vercel-og.jpg',
       links: [
         { name: 'Vercel Dashboard', url: 'https://vercel.com/dashboard' },
@@ -315,13 +385,14 @@ export default function PortfolioPage() {
       icon: <SiVercel className="h-6 w-6" />,
       experience: '2+ yrs',
       category: 'tool',
+      initialPosition: createInitialPosition(12, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'sevalla',
       title: 'Sevalla',
       description: 'Skilled in using Sevalla for system management.',
-      details: 'I&apos;ve worked extensively with Sevalla to manage deployments and monitor system health.',
-      image: 'https://via.placeholder.com/400x200?text=Sevalla',
+      details: 'I&apos;ve worked extensively with Sevalla to manage deployments, monitor system health, and streamline team workflows. Strong focus on stability and automation.',
+      image: 'https://via.placeholder.com/400x200?text=Sevalla', // Replace with actual Sevalla image if available
       links: [
         { name: 'Sevalla Docs', url: 'https://example.com/sevalla-docs' },
       ],
@@ -332,324 +403,142 @@ export default function PortfolioPage() {
       ),
       experience: '1+ yrs',
       category: 'tool',
+      initialPosition: createInitialPosition(13, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
   ];
 
-  // Define offerings
+  // Position offerings - now using more horizontal space
   const offerings = [
     {
       icon: <Code className="h-6 w-6 text-zinc-400" />,
       title: 'Web & App Development',
-      description: 'Crafting visually appealing and user-friendly interfaces using modern frameworks.',
+      description: 'Crafting visually appealing and user-friendly interfaces using HTML, CSS, JavaScript, TypeScript, and modern frameworks.',
+      initialPosition: windowSize.width < 1024 
+        ? createInitialPosition(0, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY }
     },
     {
       icon: <Database className="h-6 w-6 text-zinc-400" />,
       title: 'Database Management',
-      description: 'Designing and managing databases to support business applications.',
+      description: 'Designing and managing databases to support business applications, ensuring data integrity and performance.',
+      initialPosition: windowSize.width < 1024 
+        ? createInitialPosition(1, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + responsiveValues.rowHeight }
     },
     {
       icon: <Globe className="h-6 w-6 text-zinc-400" />,
       title: 'API Development',
-      description: 'Building robust and scalable APIs using modern frameworks.',
+      description: 'Building robust and scalable APIs using modern frameworks to enable seamless integration across platforms.',
+      initialPosition: windowSize.width < 1024 
+        ? createInitialPosition(2, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + (responsiveValues.rowHeight * 2) }
     },
     {
       icon: <ShoppingCart className="h-6 w-6 text-zinc-400" />,
       title: 'E-commerce Solutions',
-      description: 'Developing complex e-commerce platforms with advanced features.',
+      description: 'Developing complex e-commerce platforms with features like invoicing, search, and user management.',
+      initialPosition: windowSize.width < 1024 
+        ? createInitialPosition(3, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + (responsiveValues.rowHeight * 3) }
     },
     {
       icon: <Zap className="h-6 w-6 text-zinc-400" />,
       title: 'Performance Optimization',
-      description: 'Optimizing applications for speed and scalability.',
+      description: 'Optimizing applications for speed and scalability, ensuring efficient performance across devices and user loads.',
+      initialPosition: windowSize.width < 1024 
+        ? createInitialPosition(4, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + (responsiveValues.rowHeight * 4) }
     },
     {
       icon: <Brain className="h-6 w-6 text-zinc-400" />,
       title: 'Integrating AI',
-      description: 'Exploring AI-powered solutions to enhance user experiences.',
+      description: 'Exploring AI-powered solutions to enhance developer tools and user experiences, with a focus on innovative applications.',
+      initialPosition: windowSize.width < 1024 
+        ? createInitialPosition(5, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + (responsiveValues.rowHeight * 5) }
     },
   ];
 
-  // Set initial positions when client loads
+  // Effect to set initial positions
   useEffect(() => {
-    if (!isClient || windowSize.width === 0) return;
+    if (windowSize.width === 0) return; // Skip if window size not initialized yet
     
-    // Set initial positions for skills
-    skills.forEach((skill, index) => {
-      const storageKey = `skill-${skill.id}-position`;
-      const storedPosition = localStorage.getItem(storageKey);
-      
-      if (!storedPosition) {
-        const initialPosition = createInitialPosition(index);
-        localStorage.setItem(storageKey, JSON.stringify(initialPosition));
+    // Initialize positions for skills
+    skills.forEach(skill => {
+      // Always update initial position on resize or first load
+      if (skill.initialPosition) {
+        localStorage.setItem(`skill-${skill.id}-position`, JSON.stringify(skill.initialPosition));
+      }
+    });
+
+    // Initialize positions for offerings
+    offerings.forEach(offering => {
+      // Always update initial position on resize or first load
+      if (offering.initialPosition) {
+        localStorage.setItem(`offering-${offering.title}-position`, JSON.stringify(offering.initialPosition));
       }
     });
     
-    // Set initial positions for offerings
-    offerings.forEach((offering, index) => {
-      const storageKey = `offering-${offering.title}-position`;
-      const storedPosition = localStorage.getItem(storageKey);
-      
-      if (!storedPosition) {
-        const initialPosition = createInitialPosition(skills.length + index);
-        localStorage.setItem(storageKey, JSON.stringify(initialPosition));
-      }
-    });
-    
+    // Force reload of positions
     setResetKey(prev => prev + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isClient, windowSize.width, windowSize.height]);
+  }, [windowSize]);
+
+  // Calculate the canvas height based on content
+  const calculateCanvasHeight = () => {
+    const maxSkillY = Math.max(...skills.map(skill => 
+      skill.initialPosition ? skill.initialPosition.y : 0
+    ));
+    
+    const maxOfferingY = Math.max(...offerings.map(offering => 
+      offering.initialPosition ? offering.initialPosition.y : 0
+    ));
+    
+    // Add extra space for the height of the cards
+    return Math.max(maxSkillY, maxOfferingY) + 220;
+  };
 
   const handleDragStart = () => {
     setHasMoved(true);
   };
 
   const handleReset = () => {
-    // Clear all stored positions
+    // Clear all stored positions from localStorage
     Object.keys(localStorage).forEach(key => {
       if ((key.startsWith('skill-') || key.startsWith('offering-')) && key.endsWith('-position')) {
         localStorage.removeItem(key);
       }
     });
     
-    // Reset initial positions for skills
-    skills.forEach((skill, index) => {
-      const storageKey = `skill-${skill.id}-position`;
-      const initialPosition = createInitialPosition(index);
-      localStorage.setItem(storageKey, JSON.stringify(initialPosition));
+    // Reset initial positions (updated for current window size)
+    skills.forEach(skill => {
+      if (skill.initialPosition) {
+        localStorage.setItem(`skill-${skill.id}-position`, JSON.stringify(skill.initialPosition));
+      }
     });
     
-    // Reset initial positions for offerings
-    offerings.forEach((offering, index) => {
-      const storageKey = `offering-${offering.title}-position`;
-      const initialPosition = createInitialPosition(skills.length + index);
-      localStorage.setItem(storageKey, JSON.stringify(initialPosition));
+    offerings.forEach(offering => {
+      if (offering.initialPosition) {
+        localStorage.setItem(`offering-${offering.title}-position`, JSON.stringify(offering.initialPosition));
+      }
     });
     
+    // Increment key to force re-render
     setResetKey(prev => prev + 1);
+    
+    // Reset moved state
     setHasMoved(false);
   };
 
-  // Calculate responsive canvas height
-  const calculateCanvasHeight = () => {
-    if (!isClient || windowSize.width === 0) return 800;
-    
-    const totalItems = skills.length + offerings.length;
-    const { width } = windowSize;
-    
-    let columns = 4;
-    if (width < 768) columns = 1;
-    else if (width < 1024) columns = 2;
-    else if (width < 1440) columns = 3;
-    
-    const rows = Math.ceil(totalItems / columns);
-    return Math.max(600, rows * 170 + 100);
-  };
-
-  if (!isClient) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-white">Loading portfolio...</div>
-      </div>
-    );
-  }
-
-  // Mobile layout (< 768px)
-  if (windowSize.width < 768) {
-    return (
-      <div className="h-screen flex flex-col">
-        {/* Top section with profile */}
-        <div className="flex-none">
-          <div className="p-4">
+  const renderContent = () => {
+    // Mobile view (< 768px)
+    if (windowSize.width < 768) {
+      return (
+        <div className="w-full p-4">
+          <div className="mb-8">
             <ProfileCard />
-            <div className="mt-4">
-              <VisitorInsights skills={skills} />
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom section with portfolio */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex-none p-4 border-t border-zinc-800">
-            <h1 className="text-2xl font-bold text-center text-white">Interactive Portfolio</h1>
-            <p className="text-center text-zinc-400 text-sm mt-1">Drag and rearrange cards to customize your view</p>
           </div>
           
-          <div className="flex-1 relative overflow-auto">
-            <div 
-              className="absolute inset-0"
-              style={{ 
-                width: '100%', 
-                height: `${calculateCanvasHeight()}px`
-              }}
-            >
-              {/* Skills */}
-              {skills.map((skill, index) => (
-                <SkillCard
-                  key={`skill-${resetKey}-${skill.id}-${index}`}
-                  id={skill.id}
-                  title={skill.title}
-                  description={skill.description}
-                  details={skill.details}
-                  image={skill.image}
-                  links={skill.links}
-                  icon={skill.icon}
-                  experience={skill.experience}
-                  category={skill.category}
-                  onDragStart={handleDragStart}
-                />
-              ))}
-              
-              {/* Offerings */}
-              {offerings.map((offering, index) => (
-                <OfferingCard
-                  key={`offering-${resetKey}-${offering.title}-${index}`}
-                  title={offering.title}
-                  description={offering.description}
-                  icon={offering.icon}
-                  onDragStart={handleDragStart}
-                />
-              ))}
-            </div>
-            
-            {/* Guide overlay */}
-            {!hasMoved && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
-                <div className="bg-zinc-800/90 backdrop-blur-sm p-4 rounded-xl text-center max-w-xs mx-4">
-                  <h2 className="text-lg font-semibold mb-2 text-white">Interactive Canvas</h2>
-                  <p className="text-zinc-300 text-sm">Drag and rearrange cards to customize your view.</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        
-        {/* Reset Button */}
-        <motion.button
-          className="fixed bottom-6 right-6 bg-zinc-800 text-white p-3 rounded-full shadow-xl z-50 border border-zinc-700"
-          onClick={handleReset}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ArrowPathIcon className="h-5 w-5" />
-        </motion.button>
-      </div>
-    );
-  }
-
-  // Tablet layout (768px - 1024px)
-  if (windowSize.width < 1024) {
-    return (
-      <div className="h-screen flex flex-col">
-        {/* Top section with profile */}
-        <div className="flex-none">
-          <div className="p-4">
-            <ProfileCard />
-            <div className="mt-4">
-              <VisitorInsights skills={skills} />
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom section with portfolio */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex-none p-4 border-t border-zinc-800">
-            <h1 className="text-3xl font-bold text-center text-white">Interactive Portfolio</h1>
-            <p className="text-center text-zinc-400 mt-1">Drag and rearrange cards to customize your view</p>
-          </div>
-          
-          <div className="flex-1 relative overflow-hidden">
-            <div 
-              className="absolute inset-0"
-              style={{ 
-                width: '100%', 
-                height: `${calculateCanvasHeight()}px`,
-                overflow: 'auto'
-              }}
-            >
-              {/* Skills */}
-              {skills.map((skill, index) => (
-                <SkillCard
-                  key={`skill-${resetKey}-${skill.id}-${index}`}
-                  id={skill.id}
-                  title={skill.title}
-                  description={skill.description}
-                  details={skill.details}
-                  image={skill.image}
-                  links={skill.links}
-                  icon={skill.icon}
-                  experience={skill.experience}
-                  category={skill.category}
-                  onDragStart={handleDragStart}
-                />
-              ))}
-              
-              {/* Offerings */}
-              {offerings.map((offering, index) => (
-                <OfferingCard
-                  key={`offering-${resetKey}-${offering.title}-${index}`}
-                  title={offering.title}
-                  description={offering.description}
-                  icon={offering.icon}
-                  onDragStart={handleDragStart}
-                />
-              ))}
-            </div>
-            
-            {/* Guide overlay */}
-            {!hasMoved && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
-                <div className="bg-zinc-800/90 backdrop-blur-sm p-6 rounded-xl text-center max-w-md">
-                  <h2 className="text-xl font-semibold mb-2 text-white">Interactive Canvas</h2>
-                  <p className="text-zinc-300">Drag and rearrange cards to customize your view.</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        
-        {/* Reset Button */}
-        <motion.button
-          className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-50 border border-zinc-700"
-          onClick={handleReset}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ArrowPathIcon className="h-6 w-6" />
-        </motion.button>
-      </div>
-    );
-  }
-
-  // Desktop layout (>= 1024px) - 20% sidebar, 80% content
-  return (
-    <div className="h-screen flex">
-      {/* Left Sidebar - 20% width */}
-      <div className="w-1/5 flex flex-col border-r border-zinc-800">
-        <div className="flex-1 overflow-y-auto p-4">
-          <ProfileCard />
-          <div className="mt-4">
-            <VisitorInsights skills={skills} />
-          </div>
-        </div>
-      </div>
-      
-      {/* Right Content Area - 80% width */}
-      <div className="w-4/5 flex flex-col">
-        {/* Header */}
-        <div className="flex-none p-6 border-b border-zinc-800">
-          <h1 className="text-3xl font-bold text-center text-white">Interactive Portfolio</h1>
-          <p className="text-center text-zinc-400 mt-2">Drag and rearrange the skill and offering cards to customize your view</p>
-        </div>
-        
-        {/* Canvas Area */}
-        <div className="flex-1 relative overflow-hidden">
-          <div 
-            className="absolute inset-0 p-6"
-            style={{ 
-              width: '100%', 
-              height: `${calculateCanvasHeight()}px`
-            }}
-          >
+          <div className="relative" style={{ height: `${calculateCanvasHeight()}px` }}>
             {/* Skills */}
             {skills.map((skill, index) => (
               <SkillCard
@@ -677,30 +566,213 @@ export default function PortfolioPage() {
                 onDragStart={handleDragStart}
               />
             ))}
-          </div>
-          
-          {/* Guide overlay */}
-          {!hasMoved && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
-              <div className="bg-zinc-800/90 backdrop-blur-md p-8 rounded-xl text-center max-w-lg border border-zinc-700/50">
-                <h2 className="text-2xl font-semibold mb-4 text-white">Interactive Canvas</h2>
-                <p className="text-zinc-300 text-lg mb-4">Drag and rearrange the skill and offering cards to customize your view. Use the reset button to restore the original layout.</p>
-                <div className="flex justify-center">
-                  <div className="animate-bounce flex items-center justify-center w-12 h-12 rounded-full bg-zinc-700/50">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-                    </svg>
+            
+            {/* Canvas Guide for Mobile */}
+            {!hasMoved && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="bg-zinc-800/70 backdrop-blur-sm p-4 rounded-xl text-center max-w-xs">
+                  <h2 className="text-lg font-semibold mb-1">Tap & Hold to Move</h2>
+                  <p className="text-zinc-300 text-sm mb-2">Rearrange the cards to customize your view.</p>
+                  <div className="flex justify-center">
+                    <div className="animate-bounce flex items-center justify-center w-8 h-8 rounded-full bg-zinc-700/50">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
+            )}
+          </div>
+          
+          <div className="my-4">
+            <VisitorInsights skills={skills} />
+          </div>
+        </div>
+      );
+    }
+    
+    // Tablet view (768px - 1024px)
+    else if (windowSize.width < 1024) {
+      return (
+        <div className="flex flex-col md:flex-row">
+          {/* Left sidebar */}
+          <div className="w-full md:w-1/4 p-4">
+            <div className="space-y-4">
+              <ProfileCard />
+              <VisitorInsights skills={skills} />
             </div>
-          )}
+          </div>
+          
+          {/* Center content */}
+          <div className="w-full md:w-3/4 p-4">
+            <div className="mb-4">
+              <h1 className="text-3xl font-bold text-center">Interactive Portfolio</h1>
+            </div>
+            
+            <div className="relative" style={{ height: `${calculateCanvasHeight()}px` }}>
+              {/* Skills */}
+              {skills.map((skill, index) => (
+                <SkillCard
+                  key={`skill-${resetKey}-${skill.id}-${index}`}
+                  id={skill.id}
+                  title={skill.title}
+                  description={skill.description}
+                  details={skill.details}
+                  image={skill.image}
+                  links={skill.links}
+                  icon={skill.icon}
+                  experience={skill.experience}
+                  category={skill.category}
+                  onDragStart={handleDragStart}
+                />
+              ))}
+              
+              {/* Offerings */}
+              {offerings.map((offering, index) => (
+                <OfferingCard
+                  key={`offering-${resetKey}-${offering.title}-${index}`}
+                  title={offering.title}
+                  description={offering.description}
+                  icon={offering.icon}
+                  onDragStart={handleDragStart}
+                />
+              ))}
+              
+              {/* Canvas Guide for Tablet */}
+              {!hasMoved && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="bg-zinc-800/70 backdrop-blur-sm p-5 rounded-xl text-center max-w-sm">
+                    <h2 className="text-xl font-semibold mb-2">Interactive Canvas</h2>
+                    <p className="text-zinc-300 mb-3">Drag and rearrange the cards to customize your view. Use the reset button if needed.</p>
+                    <div className="flex justify-center">
+                      <div className="animate-bounce flex items-center justify-center w-9 h-9 rounded-full bg-zinc-700/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
+// Desktop view (>= 1024px)
+else {
+  return (
+    <div className="h-screen relative">
+      {/* Left fixed panel */}
+      <div className="fixed left-0 top-0 h-full w-1/4 p-4 overflow-y-auto">
+        <div className="space-y-4">
+          <ProfileCard />
+          <VisitorInsights skills={skills} />
         </div>
       </div>
-      
-      {/* Reset Button */}
+  
+      {/* Centered main content - with proper grid positioning */}
+      <div>
+        <div className="p-4 flex flex-col items-center">
+          <h1 className="text-3xl font-bold text-center pb-4">Interactive Portfolio</h1>
+          
+          {/* Interactive Canvas message in the center */}
+          <div className="text-center mb-8 w-full max-w-2xl mx-auto">
+            <div className="bg-zinc-500/30 backdrop-blur-sm p-4 rounded-xl">
+              <h2 className="text-xl font-medium text-white">Interactive Canvas</h2>
+              <p className="text-blue-100">Drag and rearrange the skill and offering cards to customize your view. Use the reset button to restore the original layout.</p>
+            </div>
+          </div>
+          
+          {/* Skills and Offerings container */}
+          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center pb-8">
+            {/* Front-end skills */}
+            {skills
+              .filter(skill => skill.category === 'frontend')
+              .map((skill, index) => (
+                <div key={`skill-grid-${skill.id}`} className="flex justify-center">
+                  <SkillCard
+                    key={`skill-${resetKey}-${skill.id}-${index}`}
+                    id={skill.id}
+                    title={skill.title}
+                    description={skill.description}
+                    details={skill.details}
+                    image={skill.image}
+                    links={skill.links}
+                    icon={skill.icon}
+                    experience={skill.experience}
+                    category={skill.category}
+                    onDragStart={handleDragStart}
+                  />
+                </div>
+              ))
+            }
+            
+            {/* Back-end skills */}
+            {skills
+              .filter(skill => skill.category === 'backend')
+              .map((skill, index) => (
+                <div key={`skill-grid-${skill.id}`} className="flex justify-center">
+                  <SkillCard
+                    key={`skill-${resetKey}-${skill.id}-${index}`}
+                    id={skill.id}
+                    title={skill.title}
+                    description={skill.description}
+                    details={skill.details}
+                    image={skill.image}
+                    links={skill.links}
+                    icon={skill.icon}
+                    experience={skill.experience}
+                    category={skill.category}
+                    onDragStart={handleDragStart}
+                  />
+                </div>
+              ))
+            }
+            
+            {/* Tools */}
+            {skills
+              .filter(skill => skill.category === 'tool')
+              .map((skill, index) => (
+                <div key={`skill-grid-${skill.id}`} className="flex justify-center">
+                  <SkillCard
+                    key={`skill-${resetKey}-${skill.id}-${index}`}
+                    id={skill.id}
+                    title={skill.title}
+                    description={skill.description}
+                    details={skill.details}
+                    image={skill.image}
+                    links={skill.links}
+                    icon={skill.icon}
+                    experience={skill.experience}
+                    category={skill.category}
+                    onDragStart={handleDragStart}
+                  />
+                </div>
+              ))
+            }
+            
+            {/* Offerings */}
+            {offerings.map((offering, index) => (
+              <div key={`offering-grid-${offering.title}`} className="flex justify-center">
+                <OfferingCard
+                  key={`offering-${resetKey}-${offering.title}-${index}`}
+                  title={offering.title}
+                  description={offering.description}
+                  icon={offering.icon}
+                  onDragStart={handleDragStart}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+  
+      {/* Floating Reset Button */}
       <motion.button
-        className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-50 border border-zinc-700 hover:bg-zinc-700 transition-colors"
+        className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-[1000] border border-zinc-700 hover:bg-zinc-700 transition-colors"
         onClick={handleReset}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -710,6 +782,47 @@ export default function PortfolioPage() {
       >
         <ArrowPathIcon className="h-6 w-6" />
       </motion.button>
+      
+      {/* Canvas Guide overlay - only shown initially */}
+      {!hasMoved && (
+        <div className="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none">
+          <div className="bg-zinc-800/80 backdrop-blur-md p-6 rounded-xl text-center max-w-md shadow-2xl border border-zinc-700/50">
+            <h2 className="text-xl font-semibold mb-2 text-white">Interactive Canvas</h2>
+            <p className="text-zinc-300 mb-4">Drag and rearrange the skill and offering cards to customize your view. Use the reset button to restore the original layout.</p>
+            <div className="flex justify-center">
+              <div className="animate-bounce flex items-center justify-center w-10 h-10 rounded-full bg-zinc-700/50">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+  );
+}
+  };
+
+  // Return the component with render content
+  return (
+    <>
+      {renderContent()}
+      
+      {/* Floating Reset Button - always visible in mobile/tablet layouts */}
+      {windowSize.width < 1024 && (
+        <motion.button
+          className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-[1000] border border-zinc-700 hover:bg-zinc-700 transition-colors"
+          onClick={handleReset}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowPathIcon className="h-6 w-6" />
+        </motion.button>
+      )}
+    </>
   );
 }
