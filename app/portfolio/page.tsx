@@ -49,10 +49,10 @@ export default function PortfolioPage() {
   }, []);
 
   // Function to create grid-based initial positions
-  const createInitialPosition = (index: number, category: 'skill' | 'offering' = 'skill') => {
+  const createInitialPosition = (index: number) => {
     if (!isClient || windowSize.width === 0) return { x: 0, y: 0 };
     
-    const { width, height } = windowSize;
+    const { width } = windowSize;
     
     // Card dimensions
     const cardWidth = 260;
@@ -382,6 +382,7 @@ export default function PortfolioPage() {
     });
     
     setResetKey(prev => prev + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClient, windowSize.width, windowSize.height]);
 
   const handleDragStart = () => {
