@@ -51,7 +51,7 @@ export default function PortfolioPage() {
   const createInitialPosition = (index: number) => {
     if (!isClient || windowSize.width === 0) return { x: 0, y: 0 };
     
-    const { width, height } = windowSize;
+    const { width } = windowSize;
     
     // Card dimensions
     const cardWidth = 250;
