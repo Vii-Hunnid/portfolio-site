@@ -1,12 +1,11 @@
 // app/layout.tsx
-
-// app/layout.tsx
 import '../styles/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import DottedBackground from '../components/DottedBackground';
 import AppleMusicEmbed from '../components/AppleMusicEmbed';
 import { Analytics } from "@vercel/analytics/react"
+import Image from 'next/image';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,13 +26,18 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         {/* Apple Music Floating Embed */}
-
         <AppleMusicEmbed />
 
         <script async defer src="https://www.sitetooling.space/track.js" data-token="469ff776-6c3e-4767-9b64-3a9eb7378eae"></script>
     
         <noscript>
-          <img src="https://www.sitetooling.space/noscript.gif?469ff776-6c3e-4767-9b64-3a9eb7378eae" alt="sitetooling.space" />
+          <Image 
+            src="https://www.sitetooling.space/noscript.gif?469ff776-6c3e-4767-9b64-3a9eb7378eae" 
+            alt="sitetooling.space"
+            width={1}
+            height={1}
+            style={{ display: 'none' }}
+          />
         </noscript>
 
         <Analytics/>
