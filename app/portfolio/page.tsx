@@ -60,7 +60,6 @@ export default function PortfolioPage() {
     
     // Define responsive layout parameters
     let containerWidth: number;
-    let containerHeight: number;
     let columns: number;
     let startX: number;
     let startY: number;
@@ -68,7 +67,6 @@ export default function PortfolioPage() {
     if (width >= 1024) {
       // Desktop: Account for 25% sidebar
       containerWidth = width * 0.7; // Leave some margin
-      containerHeight = height - 150; // Account for header
       columns = Math.floor(containerWidth / (cardWidth + gap));
       columns = Math.max(2, Math.min(columns, 4)); // 2-4 columns
       startX = 20;
@@ -76,7 +74,6 @@ export default function PortfolioPage() {
     } else if (width >= 768) {
       // Tablet: Account for 25% sidebar
       containerWidth = width * 0.7;
-      containerHeight = height - 200;
       columns = Math.floor(containerWidth / (cardWidth + gap));
       columns = Math.max(2, Math.min(columns, 3)); // 2-3 columns
       startX = 20;
@@ -84,7 +81,6 @@ export default function PortfolioPage() {
     } else {
       // Mobile: Full width
       containerWidth = width - 40;
-      containerHeight = height - 250;
       columns = Math.floor(containerWidth / (cardWidth + gap));
       columns = Math.max(1, Math.min(columns, 2)); // 1-2 columns
       startX = 20;
