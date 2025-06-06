@@ -34,6 +34,9 @@ export default function RootLayout({
             style={{ display: 'none' }}
           />
         </noscript>      
+        
+        <script defer type="text/javascript" src="https://datapulse.app/datapulse.min.js" id="datapulse" data-endpoint="https://datapulse.app/api/v1/event" data-workspace="cmbktdnw6hewrax31005f0855"></script>
+        
       </head>
       <body className={inter.className}>
         {/* Apple Music Floating Embed */}
