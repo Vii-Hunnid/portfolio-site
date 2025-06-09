@@ -23,11 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
-        <script async defer src="https://www.sitetooling.space/track.js" data-token="469ff776-6c3e-4767-9b64-3a9eb7378eae"></script>
+        <script async defer src="https://www.sitetooling.space/track.js" data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"></script>
     
         <noscript>
           <Image 
-            src="https://www.sitetooling.space/noscript.gif?469ff776-6c3e-4767-9b64-3a9eb7378eae" 
+            src="https://www.sitetooling.space/noscript.gif?fe326de0-dda8-4c9d-b0e2-6089a93c5950" 
             alt="sitetooling.space"
             width={1}
             height={1}
