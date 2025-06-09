@@ -8,13 +8,13 @@ export default function Analytics() {
     <>      
       <Script
         src="https://sitetooling.space/track.js"
-        data-token="469ff776-6c3e-4767-9b64-3a9eb7378eae"
+        data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
         strategy="afterInteractive"
       />
       
       <Script
         src="https://sitetooling.space/analytics.js"
-        data-token="469ff776-6c3e-4767-9b64-3a9eb7378eae"
+        data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
         data-element="site-analytics"
         strategy="afterInteractive"
         onLoad={() => {
