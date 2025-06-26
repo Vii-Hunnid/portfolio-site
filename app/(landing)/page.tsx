@@ -5,7 +5,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { SiNextdotjs, SiReact, SiTypescript } from 'react-icons/si';
+import { SiNextdotjs, SiReact, SiNuxtdotjs, SiVuedotjs, SiTypescript } from 'react-icons/si';
 
 export default function LandingPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -116,6 +116,20 @@ export default function LandingPage() {
                 className="p-3 bg-zinc-800 rounded-full cursor-pointer"
               >
                 <SiNextdotjs className="h-8 w-8 text-white" />
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.1, rotate: -10 }}
+                className="p-3 bg-zinc-800 rounded-full cursor-pointer"
+              >
+                <SiVuedotjs className="h-8 w-8 text-white" />
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.1, rotate: -10 }}
+                className="p-3 bg-zinc-800 rounded-full cursor-pointer"
+              >
+                <SiNuxtdotjs className="h-8 w-8 text-white" />
               </motion.div>
               
               <motion.div
