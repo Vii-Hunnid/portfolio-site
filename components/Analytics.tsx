@@ -14,6 +14,8 @@ export default function Analytics() {
         data-controls="true"
         data-style="compact"
         data-element="site-analytics"
+        data-show-logo="true"
+        data-show-header="true"
         strategy="afterInteractive"
         />
       
