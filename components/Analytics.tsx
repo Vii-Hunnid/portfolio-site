@@ -15,7 +15,7 @@ export default function Analytics() {
         data-style="compact"
         data-element="site-analytics"
         strategy="afterInteractive"
-        ></script>
+        />
       
       {/* The div where analytics will be rendered */}
       <div id="site-analytics"></div>
