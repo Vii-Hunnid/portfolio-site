@@ -9,13 +9,19 @@ export default function Analytics() {
       <Script
         src="https://sitetooling.space/track.js"
         data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
+        data-theme="inherit"
+        data-background="transparent"
+        data-controls="true"
+        data-style="professional"
+        data-element="site-analytics"
         strategy="afterInteractive"
       />
       
       <Script
         src="https://sitetooling.space/analytics.js"
         data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
-        data-theme="glassmorphism"
+        data-theme="inherit"
+        data-background="transparent"
         data-controls="true"
         data-style="professional"
         data-element="site-analytics"
