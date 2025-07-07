@@ -12,24 +12,10 @@ export default function Analytics() {
         data-theme="inherit"
         data-background="transparent"
         data-controls="true"
-        data-style="professional"
+        data-style="compact"
         data-element="site-analytics"
         strategy="afterInteractive"
-      />
-      
-      <Script
-        src="https://sitetooling.space/analytics.js"
-        data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
-        data-theme="inherit"
-        data-background="transparent"
-        data-controls="true"
-        data-style="professional"
-        data-element="site-analytics"
-        strategy="afterInteractive"
-        onLoad={() => {
-          console.log('Analytics script loaded successfully')
-        }}
-      />
+        ></script>
       
       {/* The div where analytics will be rendered */}
       <div id="site-analytics"></div>
