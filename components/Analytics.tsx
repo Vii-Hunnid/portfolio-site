@@ -7,7 +7,7 @@ export default function Analytics() {
   return (
     <>      
       <Script
-        src="https://sitetooling.space/track.js"
+        src="https://sitetooling.space/analytics.js"
         data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
         data-theme="inherit"
         data-background="transparent"
