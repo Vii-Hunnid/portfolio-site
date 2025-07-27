@@ -6,6 +6,7 @@ import DottedBackground from '../components/DottedBackground';
 import AppleMusicEmbed from '../components/AppleMusicEmbed';
 import { Analytics } from "@vercel/analytics/react"
 import Image from 'next/image';
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -46,6 +47,11 @@ export default function RootLayout({
         <DottedBackground pattern="dots">
           <main>
             {children}
+            <Script
+              src="https://www.sitetooling.space/aichatwidget.js"
+              data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
+              strategy="afterInteractive"
+            />
           </main>
         </DottedBackground>
       </body>

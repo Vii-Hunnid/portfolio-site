@@ -7,6 +7,12 @@ export default function Analytics() {
   return (
     <>      
       <Script
+        src="https://www.sitetooling.space/aichatwidget.js"
+        data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
+        strategy="afterInteractive"
+      />
+
+      <Script
         src="https://sitetooling.space/analytics.js"
         data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
         data-controls="true"
