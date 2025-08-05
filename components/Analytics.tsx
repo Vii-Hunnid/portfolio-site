@@ -11,6 +11,13 @@ export default function Analytics() {
         data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
         strategy="afterInteractive"
       />
+
+      <Script 
+        async 
+        defer 
+        src="https://www.sitetooling.space/session-replay.js" 
+        data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
+      /> 
       
       <Script
         src="https://sitetooling.space/analytics.js"
