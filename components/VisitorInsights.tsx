@@ -80,8 +80,8 @@ const VisitorInsights: React.FC<VisitorInsightsProps> = ({ skills }) => {
 
   return (
     <div className="card">
-      <h3 className="text-lg font-medium text-white mb-2">Skill Interactions</h3>
-      <div className="space-y-1">
+      <h3 className="text-lg font-medium text-white mb-2 hidden">Skill Interactions</h3>
+      <div className="space-y-1 hidden">
         {skills.slice(0, 4).map((skill) => (
           <div key={skill.title} className="flex justify-between text-sm border-b border-zinc-800 py-2">
             <span className="text-zinc-300">{skill.title}</span>

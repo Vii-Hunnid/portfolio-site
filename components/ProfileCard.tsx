@@ -60,7 +60,7 @@ const ProfileCard: React.FC = () => {
 
           <Link 
             href="/skills" 
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-white font-medium transition w-full md:w-auto md:mx-auto md:px-5"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-white font-medium transition w-full md:w-auto md:mx-auto md:px-5 hidden"
           >
             <span>See Skills & Insights</span>
             <ArrowRight size={24} />
