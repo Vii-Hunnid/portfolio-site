@@ -8,12 +8,32 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'pbs.twimg.com',
-        pathname: '/media/**', // Allow all paths under /media
+        pathname: '/media/**',
       },
       {
         protocol: 'https',
         hostname: 'via.placeholder.com',
-        pathname: '/**', // Allow all paths
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.thum.io',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'nuxt.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.vercel.com',
+        pathname: '/**',
       },
     ],
   },

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import LivePreview from './LivePreview';
 
 interface ModalProps {
   isOpen: boolean;
@@ -100,7 +101,7 @@ const Modal: React.FC<ModalProps> = ({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className={`relative w-full max-w-lg mx-4 md:mx-auto bg-zinc-900 border ${getCategoryStyle()} text-white rounded-2xl shadow-xl p-5`}
+            className={`relative w-full max-w-2xl mx-4 md:mx-auto bg-zinc-900 border ${getCategoryStyle()} text-white rounded-2xl shadow-xl p-5`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -143,20 +144,26 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
               )}
               
-              {image && (
+              {/* Live preview iframe when a project link exists; fall back to static image */}
+              {links && links.length > 0 ? (
+                <div>
+                  <h3 className="text-sm font-medium text-zinc-400 mb-2">Live Preview</h3>
+                  <LivePreview url={links[0].url} title={title} />
+                </div>
+              ) : image ? (
                 <div>
                   <h3 className="text-sm font-medium text-zinc-400 mb-1">Preview</h3>
                   <div className="relative h-40 w-full overflow-hidden rounded-lg">
-                    <Image 
-                      src={image} 
-                      alt={title} 
-                      layout="fill" 
-                      objectFit="cover" 
+                    <Image
+                      src={image}
+                      alt={title}
+                      layout="fill"
+                      objectFit="cover"
                       className="hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 </div>
-              )}
+              ) : null}
               
               {links && links.length > 0 && (
                 <div>

@@ -25,6 +25,7 @@ export default function Analytics() {
         data-controls="true"
         data-style="minimal"
         data-logo-size="large"
+        data-theme="light"
         data-element="site-analytics"
         />
       

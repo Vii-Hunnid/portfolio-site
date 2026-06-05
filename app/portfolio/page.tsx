@@ -30,67 +30,52 @@ export default function PortfolioPage() {
   const [resetKey, setResetKey] = useState(0);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
-  // Function to calculate responsive positions
   const calculateResponsivePosition = (defaultX: number, defaultY: number, screenWidth: number, screenHeight: number) => {
-    // For very small screens (mobile)
     if (screenWidth < 640) {
-      // Scale down positions to fit smaller screens
       return {
         x: (defaultX / 1920) * screenWidth,
         y: (defaultY / 1080) * screenHeight
       };
-    }
-    // For small screens (tablet)
-    else if (screenWidth < 1024) {
+    } else if (screenWidth < 1024) {
       return {
         x: (defaultX / 1440) * screenWidth,
         y: (defaultY / 900) * screenHeight
       };
-    }
-    // For medium screens
-    else if (screenWidth < 1440) {
+    } else if (screenWidth < 1440) {
       return {
         x: (defaultX / 1280) * screenWidth,
         y: (defaultY / 800) * screenHeight
       };
-    }
-    // For large screens
-    else {
+    } else {
       return { x: defaultX, y: defaultY };
     }
   };
 
-  // Function to create initial positions
   const createInitialPosition = (index: number, totalColumns: number, startX: number, startY: number, colWidth: number, rowHeight: number, screenWidth: number, screenHeight: number) => {
     let columns = totalColumns;
-    
-    // Adjust columns for smaller screens
     if (screenWidth < 640) {
-      columns = 1; // Single column for mobile
+      columns = 1;
     } else if (screenWidth < 1024) {
-      columns = 2; // Two columns for tablet
+      columns = 2;
     }
-    
+
     const col = index % columns;
     const row = Math.floor(index / columns);
-    
+
     const position = {
       x: startX + (col * colWidth),
       y: startY + (row * rowHeight)
     };
-    
+
     return calculateResponsivePosition(position.x, position.y, screenWidth, screenHeight);
   };
 
-  // Initialize window size
   useEffect(() => {
-    // Set initial values
     setWindowSize({
       width: window.innerWidth,
       height: window.innerHeight
     });
 
-    // Handle resize events
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
@@ -99,75 +84,60 @@ export default function PortfolioPage() {
     };
 
     window.addEventListener('resize', handleResize);
-    
-    // Clean up
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Define base values for positioning
   const baseStartX = 20;
   const baseStartY = 100;
   const baseColWidth = 260;
   const baseRowHeight = 150;
-  const baseTotalColumns = 0; // Increased columns to use full width
+  const baseTotalColumns = 4;
 
-  // Calculate responsive values
   const getResponsiveValues = () => {
     const { width } = windowSize;
-    
-    // Adjust values based on screen size
+
     let startX = baseStartX;
     let startY = baseStartY;
     let colWidth = baseColWidth;
     let rowHeight = baseRowHeight;
     let totalColumns = baseTotalColumns;
-    
-    // Mobile adjustments
+
     if (width < 640) {
       startX = 20;
       startY = 80;
-      colWidth = width - 40;
+      colWidth = Math.max(width - 40, 200);
       rowHeight = 120;
       totalColumns = 1;
-    }
-    // Tablet adjustments
-    else if (width < 1024) {
+    } else if (width < 1024) {
       startX = 40;
       startY = 100;
       colWidth = (width - 120) / 2;
       rowHeight = 130;
       totalColumns = 2;
-    }
-    // Smaller desktop adjustments
-    else if (width < 1440) {
+    } else if (width < 1440) {
       startX = 80;
       startY = 100;
       colWidth = 220;
       rowHeight = 140;
       totalColumns = 3;
     }
-    
-    // Offering column positioning - now we can use more space horizontally since GitJournal is removed
-    const offeringStartX = width < 1024 
-      ? startX // Stack vertically on mobile/tablet
-      : startX + ((totalColumns - 2) * colWidth) + 2; // Position offerings in the last two columns
-    
-    return { startX, startY, colWidth, rowHeight, totalColumns, offeringStartX };
+
+    return { startX, startY, colWidth, rowHeight, totalColumns };
   };
 
   const responsiveValues = getResponsiveValues();
 
-  // Define skills
   const skills: Skill[] = [
     {
       id: 'react',
       title: 'React',
       description: 'Proficient in building scalable web apps.',
       details: 'I have over 3 years of experience with React, creating dynamic and user-friendly interfaces.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q2XQAAk37D?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://www.isaachadebe.dev',
       links: [
-        { name: 'E-commerce Platform', url: 'https://example.com/ecommerce' },
-        { name: 'Chat App', url: 'https://example.com/chat' },
+        { name: 'Portfolio (isaachadebe.dev)', url: 'https://www.isaachadebe.dev' },
+        { name: 'SCCA Dashboard', url: 'https://scca-black.vercel.app' },
+        { name: 'Anime Finder', url: 'https://anime-finder-five.vercel.app' },
       ],
       icon: <SiReact className="h-6 w-6" />,
       experience: '3+ yrs',
@@ -178,11 +148,12 @@ export default function PortfolioPage() {
       id: 'nextjs',
       title: 'Next.js',
       description: 'Experienced in modern React frameworks.',
-      details: 'I specialize in Next.js, building performant web applications.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9XIAAInY1?format=jpg&name=large',
+      details: 'I specialize in Next.js, building performant web applications with SSR, SSG, and full-stack capabilities.',
+      image: 'https://image.thum.io/get/width/600/https://www.dynasty8real.estate',
       links: [
-        { name: 'Portfolio Site', url: 'https://example.com/portfolio' },
-        { name: 'Blog Platform', url: 'https://example.com/blog' },
+        { name: 'Portfolio (isaachadebe.dev)', url: 'https://www.isaachadebe.dev' },
+        { name: 'Dynasty 8 Real Estate', url: 'https://www.dynasty8real.estate' },
+        { name: 'CyberPulse', url: 'https://cyber-pulse-orpin.vercel.app' },
       ],
       icon: <SiNextdotjs className="h-6 w-6" />,
       experience: '3+ yrs',
@@ -194,10 +165,11 @@ export default function PortfolioPage() {
       title: 'TypeScript',
       description: 'Proficient in building scalable web apps.',
       details: 'I have over 3 years of experience with TypeScript, building robust and type-safe applications.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q2XQAAk37D?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://www.sitetooling.space',
       links: [
-        { name: 'E-commerce Platform', url: 'https://example.com/ecommerce' },
-        { name: 'Chat App', url: 'https://example.com/chat' },
+        { name: 'SiteTooling Space', url: 'https://www.sitetooling.space' },
+        { name: 'G-nther', url: 'https://g-nther.vercel.app' },
+        { name: 'Dynasty 8 Real Estate', url: 'https://www.dynasty8real.estate' },
       ],
       icon: <SiTypescript className="h-6 w-6" />,
       experience: '3+ yrs',
@@ -209,10 +181,11 @@ export default function PortfolioPage() {
       title: 'JavaScript',
       description: 'Experienced in dynamic web development.',
       details: 'I have been working with JavaScript for over 5 years, creating interactive applications.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9WMAAnOti?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://www.gitbuy.store/',
       links: [
-        { name: 'Chat App', url: 'https://example.com/chat' },
-        { name: 'Portfolio Site', url: 'https://example.com/portfolio' },
+        { name: 'GitBuy', url: 'https://www.gitbuy.store/' },
+        { name: 'Krost Events', url: 'https://www.kikevents.com' },
+        { name: 'MereAutomaton', url: 'https://www.mereautomaton.club' },
       ],
       icon: <SiJavascript className="h-6 w-6" />,
       experience: '5+ yrs',
@@ -224,9 +197,10 @@ export default function PortfolioPage() {
       title: 'Nuxt.js',
       description: 'Experienced in building performant Vue.js applications with Nuxt.',
       details: 'I have over 3+ years of experience using Nuxt.js to build scalable, SEO-friendly, and performant web applications. Skilled in server-side rendering, static site generation, and module integration.',
-      image: 'https://nuxt.com/assets/home/nuxt-card.jpg',
+      image: 'https://image.thum.io/get/width/600/https://www.molomonr.co.za/',
       links: [
-        { name: 'Nuxt.js Project', url: 'https://example.com/nuxtjs-project' },
+        { name: 'Molomo NR', url: 'https://www.molomonr.co.za/' },
+        { name: 'MereAutomaton', url: 'https://www.mereautomaton.club' },
       ],
       icon: <SiNuxtdotjs className="h-6 w-6" />,
       experience: '3+ yrs',
@@ -238,163 +212,171 @@ export default function PortfolioPage() {
       title: 'Vue.js',
       description: 'Experienced in Vue.js framework.',
       details: 'I have 4+ years of experience with Vue.js, building interactive web applications.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9XIAAInY1?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://anime-finder-five.vercel.app',
       links: [
-        { name: 'ChatHub App', url: 'https://example.com/chathub' },
+        { name: 'Anime Finder', url: 'https://anime-finder-five.vercel.app' },
+        { name: 'Molomo NR', url: 'https://www.molomonr.co.za/' },
       ],
       icon: <SiVuedotjs className="h-6 w-6" />,
       experience: '4+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(5, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
-        {
+    {
       id: 'html',
       title: 'HTML',
       description: 'Proficient in building web structures.',
       details: 'I have over 5 years of experience with HTML, creating semantic and accessible web pages.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9WMAAnOti?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://www.kikevents.com',
       links: [
-        { name: 'HTML Project', url: 'https://example.com/html-project' },
+        { name: 'Krost Events', url: 'https://www.kikevents.com' },
+        { name: 'Portfolio Site', url: 'https://www.isaachadebe.dev' },
       ],
       icon: <SiHtml5 className="h-6 w-6" />,
       experience: '5+ yrs',
       category: 'frontend',
-      initialPosition: createInitialPosition(4, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(6, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'svelte',
       title: 'Svelte',
       description: 'Familiar with Svelte framework.',
       details: 'I have 1+ year of experience with Svelte, exploring its reactive approach to building UIs.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q2XQAAk37D?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://www.mereautomaton.club',
       links: [
-        { name: 'Svelte Project', url: 'https://example.com/svelte-project' },
+        { name: 'MereAutomaton Club', url: 'https://www.mereautomaton.club' },
       ],
       icon: <SiSvelte className="h-6 w-6" />,
       experience: '1+ yr',
       category: 'frontend',
-      initialPosition: createInitialPosition(6, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(7, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'astro',
       title: 'Astro',
       description: 'Experienced with Astro for static site generation.',
       details: 'I have 1+ year of experience with Astro, building fast and SEO-friendly websites.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9XIAAInY1?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://www.fcnd.link',
       links: [
-        { name: 'Astro Portfolio', url: 'https://example.com/astro-portfolio' },
+        { name: 'Staquitize Tooly', url: 'https://www.fcnd.link' },
       ],
       icon: <SiAstro className="h-6 w-6" />,
       experience: '1+ yr',
       category: 'frontend',
-      initialPosition: createInitialPosition(7, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(8, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'nodejs',
       title: 'Node.js',
       description: 'Experienced in server-side development.',
-      details: 'I have used Node.js for over 3 years to build scalable backend services.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9XIAAInY1?format=jpg&name=large',
+      details: 'I have used Node.js for over 3 years to build scalable backend services and APIs.',
+      image: 'https://image.thum.io/get/width/600/https://g-nther.vercel.app',
       links: [
-        { name: 'API Service', url: 'https://example.com/api' },
+        { name: 'G-nther', url: 'https://g-nther.vercel.app' },
+        { name: 'SiteTooling Space', url: 'https://www.sitetooling.space' },
       ],
       icon: <SiNodedotjs className="h-6 w-6" />,
       experience: '3+ yrs',
       category: 'backend',
-      initialPosition: createInitialPosition(8, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(9, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'supabase',
       title: 'Supabase',
       description: 'Skilled in Supabase for backend and database management.',
-      details: 'I have 2+ years of experience with Supabase, managing data for various applications.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q2XQAAk37D?format=jpg&name=large',
+      details: 'I have 2+ years of experience with Supabase, managing data and auth for various applications.',
+      image: 'https://image.thum.io/get/width/600/https://scca-black.vercel.app',
       links: [
-        { name: 'ChatHub Backend', url: 'https://example.com/chathub' },
+        { name: 'G-nther', url: 'https://g-nther.vercel.app' },
+        { name: 'SCCA Dashboard', url: 'https://scca-black.vercel.app' },
       ],
       icon: <SiSupabase className="h-6 w-6" />,
       experience: '2+ yrs',
       category: 'backend',
-      initialPosition: createInitialPosition(9, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(10, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'firebase',
       title: 'Firebase',
       description: 'Experienced with Firebase for backend services.',
       details: 'I have 2+ years of experience with Firebase, integrating real-time databases and authentication.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9WMAAnOti?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://www.kikevents.com',
       links: [
-        { name: 'Firebase Project', url: 'https://example.com/firebase' },
+        { name: 'Krost Events', url: 'https://www.kikevents.com' },
+        { name: 'G-nther', url: 'https://g-nther.vercel.app' },
       ],
       icon: <SiFirebase className="h-6 w-6" />,
       experience: '2+ yrs',
       category: 'backend',
-      initialPosition: createInitialPosition(10, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(11, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'sql',
       title: 'SQL',
       description: 'Skilled in relational database management.',
       details: 'I have 2+ years of experience with SQL, designing and querying databases for applications.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q2XQAAk37D?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://www.dynasty8real.estate',
       links: [
-        { name: 'Database Project', url: 'https://example.com/database' },
+        { name: 'Dynasty 8 Real Estate', url: 'https://www.dynasty8real.estate' },
+        { name: 'SiteTooling Space', url: 'https://www.sitetooling.space' },
       ],
       icon: <FaDatabase className="h-6 w-6" />,
       experience: '2+ yrs',
       category: 'backend',
-      initialPosition: createInitialPosition(11, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(12, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'prisma',
       title: 'Prisma',
       description: 'Proficient in database access with Prisma ORM.',
       details: 'I have 1+ years of experience using Prisma to manage and query databases in full-stack applications. Skilled in schema design, migrations, and integrating with PostgreSQL, MySQL, and SQLite.',
-      image: 'https://raw.githubusercontent.com/prisma/static-assets/main/logo/banner.png', // Official Prisma banner
+      image: 'https://image.thum.io/get/width/600/https://cyber-pulse-orpin.vercel.app',
       links: [
-        { name: 'Project using Prisma', url: 'https://example.com/prisma-project' },
+        { name: 'Dynasty 8 Real Estate', url: 'https://www.dynasty8real.estate' },
+        { name: 'CyberPulse', url: 'https://cyber-pulse-orpin.vercel.app' },
       ],
       icon: <SiPrisma className="h-6 w-6" />,
       experience: '1+ yrs',
       category: 'backend',
-      initialPosition: createInitialPosition(9, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(13, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'git',
       title: 'Git',
       description: 'Proficient in version control.',
       details: 'I have used Git for over 4 years to manage codebases and collaborate on projects.',
-      image: 'https://pbs.twimg.com/media/GjXU4Q9WMAAnOti?format=jpg&name=large',
+      image: 'https://image.thum.io/get/width/600/https://github.com/Vii-Hunnid',
       links: [
-        { name: 'GitHub Profile', url: 'https://github.com/vihunnid' },
+        { name: 'GitHub Profile', url: 'https://github.com/Vii-Hunnid' },
       ],
       icon: <Github className="h-6 w-6" />,
       experience: '4+ yrs',
       category: 'tool',
-      initialPosition: createInitialPosition(12, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(14, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'vercel',
       title: 'Vercel',
       description: 'Expert in modern deployment workflows.',
       details: 'I have over 2+ years of experience deploying applications with Vercel, focusing on performance, scalability, and seamless CI/CD integration. Proficient in optimizing Next.js and Nuxt.js apps for production.',
-      image: 'https://assets.vercel.com/image/upload/v1675960505/front/vercel-og.jpg',
+      image: 'https://image.thum.io/get/width/600/https://www.isaachadebe.dev',
       links: [
-        { name: 'Vercel Dashboard', url: 'https://vercel.com/dashboard' },
+        { name: 'My Vercel Projects', url: 'https://vercel.com/vii-hunnids-projects' },
+        { name: 'Portfolio Site', url: 'https://www.isaachadebe.dev' },
       ],
       icon: <SiVercel className="h-6 w-6" />,
       experience: '2+ yrs',
       category: 'tool',
-      initialPosition: createInitialPosition(12, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(15, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       id: 'sevalla',
       title: 'Sevalla',
       description: 'Skilled in using Sevalla for system management.',
-      details: 'I&apos;ve worked extensively with Sevalla to manage deployments, monitor system health, and streamline team workflows. Strong focus on stability and automation.',
-      image: 'https://via.placeholder.com/400x200?text=Sevalla', // Replace with actual Sevalla image if available
+      details: "I've worked extensively with Sevalla to manage deployments, monitor system health, and streamline team workflows. Strong focus on stability and automation.",
+      image: 'https://image.thum.io/get/width/600/https://sevalla.com',
       links: [
-        { name: 'Sevalla Docs', url: 'https://example.com/sevalla-docs' },
+        { name: 'Sevalla Platform', url: 'https://sevalla.com' },
       ],
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 193 186" className="h-6 w-6">
@@ -403,98 +385,74 @@ export default function PortfolioPage() {
       ),
       experience: '1+ yrs',
       category: 'tool',
-      initialPosition: createInitialPosition(13, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
+      initialPosition: createInitialPosition(16, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
   ];
 
-  // Position offerings - now using more horizontal space
+  // Offerings continue in grid after skills (indices 17–22)
   const offerings = [
     {
       icon: <Code className="h-6 w-6 text-zinc-400" />,
       title: 'Web & App Development',
       description: 'Crafting visually appealing and user-friendly interfaces using HTML, CSS, JavaScript, TypeScript, and modern frameworks.',
-      initialPosition: windowSize.width < 1024 
-        ? createInitialPosition(0, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
-        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY }
+      initialPosition: createInitialPosition(17, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       icon: <Database className="h-6 w-6 text-zinc-400" />,
       title: 'Database Management',
       description: 'Designing and managing databases to support business applications, ensuring data integrity and performance.',
-      initialPosition: windowSize.width < 1024 
-        ? createInitialPosition(1, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
-        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + responsiveValues.rowHeight }
+      initialPosition: createInitialPosition(18, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       icon: <Globe className="h-6 w-6 text-zinc-400" />,
       title: 'API Development',
       description: 'Building robust and scalable APIs using modern frameworks to enable seamless integration across platforms.',
-      initialPosition: windowSize.width < 1024 
-        ? createInitialPosition(2, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
-        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + (responsiveValues.rowHeight * 2) }
+      initialPosition: createInitialPosition(19, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       icon: <ShoppingCart className="h-6 w-6 text-zinc-400" />,
       title: 'E-commerce Solutions',
       description: 'Developing complex e-commerce platforms with features like invoicing, search, and user management.',
-      initialPosition: windowSize.width < 1024 
-        ? createInitialPosition(3, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
-        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + (responsiveValues.rowHeight * 3) }
+      initialPosition: createInitialPosition(20, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       icon: <Zap className="h-6 w-6 text-zinc-400" />,
       title: 'Performance Optimization',
       description: 'Optimizing applications for speed and scalability, ensuring efficient performance across devices and user loads.',
-      initialPosition: windowSize.width < 1024 
-        ? createInitialPosition(4, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
-        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + (responsiveValues.rowHeight * 4) }
+      initialPosition: createInitialPosition(21, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
     {
       icon: <Brain className="h-6 w-6 text-zinc-400" />,
       title: 'Integrating AI',
       description: 'Exploring AI-powered solutions to enhance developer tools and user experiences, with a focus on innovative applications.',
-      initialPosition: windowSize.width < 1024 
-        ? createInitialPosition(5, responsiveValues.totalColumns, responsiveValues.startX, skills.length * responsiveValues.rowHeight + responsiveValues.startY + 50, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
-        : { x: responsiveValues.offeringStartX, y: responsiveValues.startY + (responsiveValues.rowHeight * 5) }
+      initialPosition: createInitialPosition(22, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
   ];
 
-  // Effect to set initial positions
   useEffect(() => {
-    if (windowSize.width === 0) return; // Skip if window size not initialized yet
-    
-    // Initialize positions for skills
+    if (windowSize.width === 0) return;
+
     skills.forEach(skill => {
-      // Always update initial position on resize or first load
       if (skill.initialPosition) {
         localStorage.setItem(`skill-${skill.id}-position`, JSON.stringify(skill.initialPosition));
       }
     });
 
-    // Initialize positions for offerings
     offerings.forEach(offering => {
-      // Always update initial position on resize or first load
       if (offering.initialPosition) {
         localStorage.setItem(`offering-${offering.title}-position`, JSON.stringify(offering.initialPosition));
       }
     });
-    
-    // Force reload of positions
+
     setResetKey(prev => prev + 1);
   }, [windowSize]);
 
-  // Calculate the canvas height based on content
   const calculateCanvasHeight = () => {
-    const maxSkillY = Math.max(...skills.map(skill => 
-      skill.initialPosition ? skill.initialPosition.y : 0
-    ));
-    
-    const maxOfferingY = Math.max(...offerings.map(offering => 
-      offering.initialPosition ? offering.initialPosition.y : 0
-    ));
-    
-    // Add extra space for the height of the cards
-    return Math.max(maxSkillY, maxOfferingY) + 220;
+    const { startY, rowHeight, totalColumns } = getResponsiveValues();
+    const cols = Math.max(totalColumns, 1);
+    const totalCards = skills.length + offerings.length;
+    const totalRows = Math.ceil(totalCards / cols);
+    return startY + (totalRows * rowHeight) + 300;
   };
 
   const handleDragStart = () => {
@@ -502,30 +460,25 @@ export default function PortfolioPage() {
   };
 
   const handleReset = () => {
-    // Clear all stored positions from localStorage
     Object.keys(localStorage).forEach(key => {
       if ((key.startsWith('skill-') || key.startsWith('offering-')) && key.endsWith('-position')) {
         localStorage.removeItem(key);
       }
     });
-    
-    // Reset initial positions (updated for current window size)
+
     skills.forEach(skill => {
       if (skill.initialPosition) {
         localStorage.setItem(`skill-${skill.id}-position`, JSON.stringify(skill.initialPosition));
       }
     });
-    
+
     offerings.forEach(offering => {
       if (offering.initialPosition) {
         localStorage.setItem(`offering-${offering.title}-position`, JSON.stringify(offering.initialPosition));
       }
     });
-    
-    // Increment key to force re-render
+
     setResetKey(prev => prev + 1);
-    
-    // Reset moved state
     setHasMoved(false);
   };
 
@@ -537,9 +490,8 @@ export default function PortfolioPage() {
           <div className="mb-8">
             <ProfileCard />
           </div>
-          
+
           <div className="relative" style={{ height: `${calculateCanvasHeight()}px` }}>
-            {/* Skills */}
             {skills.map((skill, index) => (
               <SkillCard
                 key={`skill-${resetKey}-${skill.id}-${index}`}
@@ -555,8 +507,7 @@ export default function PortfolioPage() {
                 onDragStart={handleDragStart}
               />
             ))}
-            
-            {/* Offerings */}
+
             {offerings.map((offering, index) => (
               <OfferingCard
                 key={`offering-${resetKey}-${offering.title}-${index}`}
@@ -566,8 +517,7 @@ export default function PortfolioPage() {
                 onDragStart={handleDragStart}
               />
             ))}
-            
-            {/* Canvas Guide for Mobile */}
+
             {!hasMoved && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="bg-zinc-800/70 backdrop-blur-sm p-4 rounded-xl text-center max-w-xs">
@@ -584,34 +534,31 @@ export default function PortfolioPage() {
               </div>
             )}
           </div>
-          
+
           <div className="my-4">
             <VisitorInsights skills={skills} />
           </div>
         </div>
       );
     }
-    
+
     // Tablet view (768px - 1024px)
     else if (windowSize.width < 1024) {
       return (
         <div className="flex flex-col md:flex-row">
-          {/* Left sidebar */}
           <div className="w-full md:w-1/4 p-4">
             <div className="space-y-4">
               <ProfileCard />
               <VisitorInsights skills={skills} />
             </div>
           </div>
-          
-          {/* Center content */}
+
           <div className="w-full md:w-3/4 p-4">
             <div className="mb-4">
               <h1 className="text-3xl font-bold text-center">Interactive Portfolio</h1>
             </div>
-            
+
             <div className="relative" style={{ height: `${calculateCanvasHeight()}px` }}>
-              {/* Skills */}
               {skills.map((skill, index) => (
                 <SkillCard
                   key={`skill-${resetKey}-${skill.id}-${index}`}
@@ -627,8 +574,7 @@ export default function PortfolioPage() {
                   onDragStart={handleDragStart}
                 />
               ))}
-              
-              {/* Offerings */}
+
               {offerings.map((offering, index) => (
                 <OfferingCard
                   key={`offering-${resetKey}-${offering.title}-${index}`}
@@ -638,8 +584,7 @@ export default function PortfolioPage() {
                   onDragStart={handleDragStart}
                 />
               ))}
-              
-              {/* Canvas Guide for Tablet */}
+
               {!hasMoved && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="bg-zinc-800/70 backdrop-blur-sm p-5 rounded-xl text-center max-w-sm">
@@ -660,103 +605,52 @@ export default function PortfolioPage() {
         </div>
       );
     }
-    
-// Desktop view (>= 1024px)
-else {
-  return (
-    <div className="h-screen relative">
-      {/* Left fixed panel */}
-      <div className="fixed left-0 top-0 h-full w-1/4 p-4 overflow-y-auto">
-        <div className="space-y-4">
-          <ProfileCard />
-          <VisitorInsights skills={skills} />
-        </div>
-      </div>
-  
-      {/* Centered main content - with proper grid positioning */}
-      <div>
-        <div className="p-4 flex flex-col items-center">
-          <h1 className="text-3xl font-bold text-center pb-4">Interactive Portfolio</h1>
-          
-          {/* Interactive Canvas message in the center */}
-          <div className="text-center mb-8 w-full max-w-2xl mx-auto">
-            <div className="bg-zinc-500/30 backdrop-blur-sm p-4 rounded-xl">
-              <h2 className="text-xl font-medium text-white">Interactive Canvas</h2>
-              <p className="text-blue-100">Drag and rearrange the skill and offering cards to customize your view. Use the reset button to restore the original layout.</p>
+
+    // Desktop view (>= 1024px)
+    else {
+      return (
+        <div className="min-h-screen relative">
+          {/* Left fixed panel */}
+          <div className="fixed left-0 top-0 h-full w-1/4 p-4 overflow-y-auto z-10 border-r border-zinc-800/50">
+            <div className="space-y-4">
+              <ProfileCard />
+              <VisitorInsights skills={skills} />
             </div>
           </div>
-          
-          {/* Skills and Offerings container */}
-          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center pb-8">
-            {/* Front-end skills */}
-            {skills
-              .filter(skill => skill.category === 'frontend')
-              .map((skill, index) => (
-                <div key={`skill-grid-${skill.id}`} className="flex justify-center">
-                  <SkillCard
-                    key={`skill-${resetKey}-${skill.id}-${index}`}
-                    id={skill.id}
-                    title={skill.title}
-                    description={skill.description}
-                    details={skill.details}
-                    image={skill.image}
-                    links={skill.links}
-                    icon={skill.icon}
-                    experience={skill.experience}
-                    category={skill.category}
-                    onDragStart={handleDragStart}
-                  />
-                </div>
-              ))
-            }
-            
-            {/* Back-end skills */}
-            {skills
-              .filter(skill => skill.category === 'backend')
-              .map((skill, index) => (
-                <div key={`skill-grid-${skill.id}`} className="flex justify-center">
-                  <SkillCard
-                    key={`skill-${resetKey}-${skill.id}-${index}`}
-                    id={skill.id}
-                    title={skill.title}
-                    description={skill.description}
-                    details={skill.details}
-                    image={skill.image}
-                    links={skill.links}
-                    icon={skill.icon}
-                    experience={skill.experience}
-                    category={skill.category}
-                    onDragStart={handleDragStart}
-                  />
-                </div>
-              ))
-            }
-            
-            {/* Tools */}
-            {skills
-              .filter(skill => skill.category === 'tool')
-              .map((skill, index) => (
-                <div key={`skill-grid-${skill.id}`} className="flex justify-center">
-                  <SkillCard
-                    key={`skill-${resetKey}-${skill.id}-${index}`}
-                    id={skill.id}
-                    title={skill.title}
-                    description={skill.description}
-                    details={skill.details}
-                    image={skill.image}
-                    links={skill.links}
-                    icon={skill.icon}
-                    experience={skill.experience}
-                    category={skill.category}
-                    onDragStart={handleDragStart}
-                  />
-                </div>
-              ))
-            }
-            
-            {/* Offerings */}
-            {offerings.map((offering, index) => (
-              <div key={`offering-grid-${offering.title}`} className="flex justify-center">
+
+          {/* Main content — offset past the fixed sidebar */}
+          <div className="ml-[25%] p-6">
+            <h1 className="text-3xl font-bold text-center pb-4">Interactive Portfolio</h1>
+
+            <div className="text-center mb-6 w-full max-w-2xl mx-auto">
+              <div className="bg-zinc-500/30 backdrop-blur-sm p-4 rounded-xl">
+                <h2 className="text-xl font-medium text-white">Interactive Canvas</h2>
+                <p className="text-blue-100">Drag and rearrange the skill and offering cards to customize your view. Use the reset button to restore the original layout.</p>
+              </div>
+            </div>
+
+            {/* Canvas: all cards are absolutely positioned within this relative container */}
+            <div
+              className="relative w-full"
+              style={{ height: `${calculateCanvasHeight()}px` }}
+            >
+              {skills.map((skill, index) => (
+                <SkillCard
+                  key={`skill-${resetKey}-${skill.id}-${index}`}
+                  id={skill.id}
+                  title={skill.title}
+                  description={skill.description}
+                  details={skill.details}
+                  image={skill.image}
+                  links={skill.links}
+                  icon={skill.icon}
+                  experience={skill.experience}
+                  category={skill.category}
+                  onDragStart={handleDragStart}
+                />
+              ))}
+
+              {offerings.map((offering, index) => (
                 <OfferingCard
                   key={`offering-${resetKey}-${offering.title}-${index}`}
                   title={offering.title}
@@ -764,52 +658,49 @@ else {
                   icon={offering.icon}
                   onDragStart={handleDragStart}
                 />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-  
-      {/* Floating Reset Button */}
-      <motion.button
-        className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-[1000] border border-zinc-700 hover:bg-zinc-700 transition-colors"
-        onClick={handleReset}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <ArrowPathIcon className="h-6 w-6" />
-      </motion.button>
-      
-      {/* Canvas Guide overlay - only shown initially */}
-      {!hasMoved && (
-        <div className="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none">
-          <div className="bg-zinc-800/80 backdrop-blur-md p-6 rounded-xl text-center max-w-md shadow-2xl border border-zinc-700/50">
-            <h2 className="text-xl font-semibold mb-2 text-white">Interactive Canvas</h2>
-            <p className="text-zinc-300 mb-4">Drag and rearrange the skill and offering cards to customize your view. Use the reset button to restore the original layout.</p>
-            <div className="flex justify-center">
-              <div className="animate-bounce flex items-center justify-center w-10 h-10 rounded-full bg-zinc-700/50">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-                </svg>
-              </div>
+              ))}
             </div>
           </div>
+
+          {/* Floating Reset Button */}
+          <motion.button
+            className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-[1000] border border-zinc-700 hover:bg-zinc-700 transition-colors"
+            onClick={handleReset}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ArrowPathIcon className="h-6 w-6" />
+          </motion.button>
+
+          {/* Canvas guide — dismissed on first drag */}
+          {!hasMoved && (
+            <div className="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none">
+              <div className="bg-zinc-800/80 backdrop-blur-md p-6 rounded-xl text-center max-w-md shadow-2xl border border-zinc-700/50">
+                <h2 className="text-xl font-semibold mb-2 text-white">Interactive Canvas</h2>
+                <p className="text-zinc-300 mb-4">Drag and rearrange the skill and offering cards to customize your view. Use the reset button to restore the original layout.</p>
+                <div className="flex justify-center">
+                  <div className="animate-bounce flex items-center justify-center w-10 h-10 rounded-full bg-zinc-700/50">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  );
-}
+      );
+    }
   };
 
-  // Return the component with render content
   return (
     <>
       {renderContent()}
-      
-      {/* Floating Reset Button - always visible in mobile/tablet layouts */}
+
+      {/* Floating Reset Button for mobile/tablet */}
       {windowSize.width < 1024 && (
         <motion.button
           className="fixed bottom-6 right-6 bg-zinc-800 text-white p-4 rounded-full shadow-xl z-[1000] border border-zinc-700 hover:bg-zinc-700 transition-colors"

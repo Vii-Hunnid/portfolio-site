@@ -52,6 +52,18 @@ export default function RootLayout({
               data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
               strategy="afterInteractive"
             />
+            {/* SiteTooling Lead Capture Modal */}
+            <Script
+              src="https://www.sitetooling.space/leads-modal.js"
+              data-token="fe326de0-dda8-4c9d-b0e2-6089a93c5950"
+              data-mode="consent"
+              data-trigger="exit_intent"
+              data-delay="30"
+              data-scroll="70"
+              data-position="bottom-right"
+              data-theme="light"
+              strategy="afterInteractive"
+            />
           </main>
         </DottedBackground>
       </body>
