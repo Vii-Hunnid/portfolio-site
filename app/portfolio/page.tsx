@@ -30,25 +30,9 @@ export default function PortfolioPage() {
   const [resetKey, setResetKey] = useState(0);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
-  const calculateResponsivePosition = (defaultX: number, defaultY: number, screenWidth: number, screenHeight: number) => {
-    if (screenWidth < 640) {
-      return {
-        x: (defaultX / 1920) * screenWidth,
-        y: (defaultY / 1080) * screenHeight
-      };
-    } else if (screenWidth < 1024) {
-      return {
-        x: (defaultX / 1440) * screenWidth,
-        y: (defaultY / 900) * screenHeight
-      };
-    } else if (screenWidth < 1440) {
-      return {
-        x: (defaultX / 1280) * screenWidth,
-        y: (defaultY / 800) * screenHeight
-      };
-    } else {
-      return { x: defaultX, y: defaultY };
-    }
+  // Positions are already computed relative to the actual content area — no scaling needed.
+  const calculateResponsivePosition = (defaultX: number, defaultY: number, _sw: number, _sh: number) => {
+    return { x: defaultX, y: defaultY };
   };
 
   const createInitialPosition = (index: number, totalColumns: number, startX: number, startY: number, colWidth: number, rowHeight: number, screenWidth: number, screenHeight: number) => {
@@ -87,42 +71,35 @@ export default function PortfolioPage() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const baseStartX = 20;
-  const baseStartY = 100;
-  const baseColWidth = 260;
-  const baseRowHeight = 150;
-  const baseTotalColumns = 4;
 
   const getResponsiveValues = () => {
     const { width } = windowSize;
+    const CARD_W = 256; // w-64
 
-    let startX = baseStartX;
-    let startY = baseStartY;
-    let colWidth = baseColWidth;
-    let rowHeight = baseRowHeight;
-    let totalColumns = baseTotalColumns;
-
-    if (width < 640) {
-      startX = 20;
-      startY = 80;
-      colWidth = Math.max(width - 40, 200);
-      rowHeight = 120;
-      totalColumns = 1;
-    } else if (width < 1024) {
-      startX = 40;
-      startY = 100;
-      colWidth = (width - 120) / 2;
-      rowHeight = 130;
-      totalColumns = 2;
-    } else if (width < 1440) {
-      startX = 80;
-      startY = 100;
-      colWidth = 220;
-      rowHeight = 140;
-      totalColumns = 3;
+    // Mobile (< 768px): no sidebar, full-width canvas, single centered column
+    if (width < 768) {
+      const contentWidth = width - 32; // p-4 × 2
+      const startX = Math.max(0, Math.floor((contentWidth - CARD_W) / 2));
+      return { startX, startY: 80, colWidth: CARD_W, rowHeight: 120, totalColumns: 1 };
     }
 
-    return { startX, startY, colWidth, rowHeight, totalColumns };
+    // Tablet (768–1023px): sidebar 25 %, content 75 %, p-4 padding
+    if (width < 1024) {
+      const contentWidth = Math.floor(width * 0.75) - 32;
+      const gap = 16;
+      const totalColumns = Math.max(1, Math.floor((contentWidth + gap) / (CARD_W + gap)));
+      const gridWidth = totalColumns * CARD_W + (totalColumns - 1) * gap;
+      const startX = Math.max(0, Math.floor((contentWidth - gridWidth) / 2));
+      return { startX, startY: 80, colWidth: CARD_W + gap, rowHeight: 130, totalColumns };
+    }
+
+    // Desktop (≥ 1024px): sidebar 25 %, content 75 %, p-6 padding — center the grid
+    const contentWidth = Math.floor(width * 0.75) - 48;
+    const gap = 20;
+    const totalColumns = Math.max(2, Math.floor((contentWidth + gap) / (CARD_W + gap)));
+    const gridWidth = totalColumns * CARD_W + (totalColumns - 1) * gap;
+    const startX = Math.max(0, Math.floor((contentWidth - gridWidth) / 2));
+    return { startX, startY: 100, colWidth: CARD_W + gap, rowHeight: 150, totalColumns };
   };
 
   const responsiveValues = getResponsiveValues();
