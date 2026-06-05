@@ -132,7 +132,7 @@ export default function PortfolioPage() {
       id: 'react',
       title: 'React',
       description: 'Proficient in building scalable web apps.',
-      details: 'I have over 3 years of experience with React, creating dynamic and user-friendly interfaces.',
+      details: 'I have over 4 years of experience with React, creating dynamic and user-friendly interfaces.',
       image: 'https://image.thum.io/get/width/600/https://www.isaachadebe.dev',
       links: [
         { name: 'Portfolio (isaachadebe.dev)', url: 'https://www.isaachadebe.dev' },
@@ -140,7 +140,7 @@ export default function PortfolioPage() {
         { name: 'Anime Finder', url: 'https://anime-finder-five.vercel.app' },
       ],
       icon: <SiReact className="h-6 w-6" />,
-      experience: '3+ yrs',
+      experience: '4+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(0, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -156,7 +156,7 @@ export default function PortfolioPage() {
         { name: 'CyberPulse', url: 'https://cyber-pulse-orpin.vercel.app' },
       ],
       icon: <SiNextdotjs className="h-6 w-6" />,
-      experience: '3+ yrs',
+      experience: '4+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(1, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -164,7 +164,7 @@ export default function PortfolioPage() {
       id: 'typescript',
       title: 'TypeScript',
       description: 'Proficient in building scalable web apps.',
-      details: 'I have over 3 years of experience with TypeScript, building robust and type-safe applications.',
+      details: 'I have over 4 years of experience with TypeScript, building robust and type-safe applications.',
       image: 'https://image.thum.io/get/width/600/https://www.sitetooling.space',
       links: [
         { name: 'SiteTooling Space', url: 'https://www.sitetooling.space' },
@@ -172,7 +172,7 @@ export default function PortfolioPage() {
         { name: 'Dynasty 8 Real Estate', url: 'https://www.dynasty8real.estate' },
       ],
       icon: <SiTypescript className="h-6 w-6" />,
-      experience: '3+ yrs',
+      experience: '4+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(2, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -180,7 +180,7 @@ export default function PortfolioPage() {
       id: 'javascript',
       title: 'JavaScript',
       description: 'Experienced in dynamic web development.',
-      details: 'I have been working with JavaScript for over 5 years, creating interactive applications.',
+      details: 'I have been working with JavaScript for over 6 years, creating interactive applications.',
       image: 'https://image.thum.io/get/width/600/https://www.gitbuy.store/',
       links: [
         { name: 'GitBuy', url: 'https://www.gitbuy.store/' },
@@ -188,7 +188,7 @@ export default function PortfolioPage() {
         { name: 'MereAutomaton', url: 'https://www.mereautomaton.club' },
       ],
       icon: <SiJavascript className="h-6 w-6" />,
-      experience: '5+ yrs',
+      experience: '6+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(3, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -196,14 +196,14 @@ export default function PortfolioPage() {
       id: 'nuxtjs',
       title: 'Nuxt.js',
       description: 'Experienced in building performant Vue.js applications with Nuxt.',
-      details: 'I have over 3+ years of experience using Nuxt.js to build scalable, SEO-friendly, and performant web applications. Skilled in server-side rendering, static site generation, and module integration.',
+      details: 'I have over 4+ years of experience using Nuxt.js to build scalable, SEO-friendly, and performant web applications. Skilled in server-side rendering, static site generation, and module integration.',
       image: 'https://image.thum.io/get/width/600/https://www.molomonr.co.za/',
       links: [
         { name: 'Molomo NR', url: 'https://www.molomonr.co.za/' },
         { name: 'MereAutomaton', url: 'https://www.mereautomaton.club' },
       ],
       icon: <SiNuxtdotjs className="h-6 w-6" />,
-      experience: '3+ yrs',
+      experience: '4+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(4, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -211,14 +211,14 @@ export default function PortfolioPage() {
       id: 'vuejs',
       title: 'Vue.js',
       description: 'Experienced in Vue.js framework.',
-      details: 'I have 4+ years of experience with Vue.js, building interactive web applications.',
+      details: 'I have 5+ years of experience with Vue.js, building interactive web applications.',
       image: 'https://image.thum.io/get/width/600/https://anime-finder-five.vercel.app',
       links: [
         { name: 'Anime Finder', url: 'https://anime-finder-five.vercel.app' },
         { name: 'Molomo NR', url: 'https://www.molomonr.co.za/' },
       ],
       icon: <SiVuedotjs className="h-6 w-6" />,
-      experience: '4+ yrs',
+      experience: '5+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(5, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -226,14 +226,14 @@ export default function PortfolioPage() {
       id: 'html',
       title: 'HTML',
       description: 'Proficient in building web structures.',
-      details: 'I have over 5 years of experience with HTML, creating semantic and accessible web pages.',
+      details: 'I have over 6 years of experience with HTML, creating semantic and accessible web pages.',
       image: 'https://image.thum.io/get/width/600/https://www.kikevents.com',
       links: [
         { name: 'Krost Events', url: 'https://www.kikevents.com' },
         { name: 'Portfolio Site', url: 'https://www.isaachadebe.dev' },
       ],
       icon: <SiHtml5 className="h-6 w-6" />,
-      experience: '5+ yrs',
+      experience: '6+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(6, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -241,13 +241,13 @@ export default function PortfolioPage() {
       id: 'svelte',
       title: 'Svelte',
       description: 'Familiar with Svelte framework.',
-      details: 'I have 1+ year of experience with Svelte, exploring its reactive approach to building UIs.',
+      details: 'I have 2+ years of experience with Svelte, exploring its reactive approach to building UIs.',
       image: 'https://image.thum.io/get/width/600/https://www.mereautomaton.club',
       links: [
         { name: 'MereAutomaton Club', url: 'https://www.mereautomaton.club' },
       ],
       icon: <SiSvelte className="h-6 w-6" />,
-      experience: '1+ yr',
+      experience: '2+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(7, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -255,13 +255,13 @@ export default function PortfolioPage() {
       id: 'astro',
       title: 'Astro',
       description: 'Experienced with Astro for static site generation.',
-      details: 'I have 1+ year of experience with Astro, building fast and SEO-friendly websites.',
+      details: 'I have 2+ years of experience with Astro, building fast and SEO-friendly websites.',
       image: 'https://image.thum.io/get/width/600/https://www.fcnd.link',
       links: [
         { name: 'Staquitize Tooly', url: 'https://www.fcnd.link' },
       ],
       icon: <SiAstro className="h-6 w-6" />,
-      experience: '1+ yr',
+      experience: '2+ yrs',
       category: 'frontend',
       initialPosition: createInitialPosition(8, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -269,14 +269,14 @@ export default function PortfolioPage() {
       id: 'nodejs',
       title: 'Node.js',
       description: 'Experienced in server-side development.',
-      details: 'I have used Node.js for over 3 years to build scalable backend services and APIs.',
+      details: 'I have used Node.js for over 4 years to build scalable backend services and APIs.',
       image: 'https://image.thum.io/get/width/600/https://g-nther.vercel.app',
       links: [
         { name: 'G-nther', url: 'https://g-nther.vercel.app' },
         { name: 'SiteTooling Space', url: 'https://www.sitetooling.space' },
       ],
       icon: <SiNodedotjs className="h-6 w-6" />,
-      experience: '3+ yrs',
+      experience: '4+ yrs',
       category: 'backend',
       initialPosition: createInitialPosition(9, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -284,14 +284,14 @@ export default function PortfolioPage() {
       id: 'supabase',
       title: 'Supabase',
       description: 'Skilled in Supabase for backend and database management.',
-      details: 'I have 2+ years of experience with Supabase, managing data and auth for various applications.',
+      details: 'I have 3+ years of experience with Supabase, managing data and auth for various applications.',
       image: 'https://image.thum.io/get/width/600/https://scca-black.vercel.app',
       links: [
         { name: 'G-nther', url: 'https://g-nther.vercel.app' },
         { name: 'SCCA Dashboard', url: 'https://scca-black.vercel.app' },
       ],
       icon: <SiSupabase className="h-6 w-6" />,
-      experience: '2+ yrs',
+      experience: '3+ yrs',
       category: 'backend',
       initialPosition: createInitialPosition(10, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -299,14 +299,14 @@ export default function PortfolioPage() {
       id: 'firebase',
       title: 'Firebase',
       description: 'Experienced with Firebase for backend services.',
-      details: 'I have 2+ years of experience with Firebase, integrating real-time databases and authentication.',
+      details: 'I have 3+ years of experience with Firebase, integrating real-time databases and authentication.',
       image: 'https://image.thum.io/get/width/600/https://www.kikevents.com',
       links: [
         { name: 'Krost Events', url: 'https://www.kikevents.com' },
         { name: 'G-nther', url: 'https://g-nther.vercel.app' },
       ],
       icon: <SiFirebase className="h-6 w-6" />,
-      experience: '2+ yrs',
+      experience: '3+ yrs',
       category: 'backend',
       initialPosition: createInitialPosition(11, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -314,14 +314,14 @@ export default function PortfolioPage() {
       id: 'sql',
       title: 'SQL',
       description: 'Skilled in relational database management.',
-      details: 'I have 2+ years of experience with SQL, designing and querying databases for applications.',
+      details: 'I have 3+ years of experience with SQL, designing and querying databases for applications.',
       image: 'https://image.thum.io/get/width/600/https://www.dynasty8real.estate',
       links: [
         { name: 'Dynasty 8 Real Estate', url: 'https://www.dynasty8real.estate' },
         { name: 'SiteTooling Space', url: 'https://www.sitetooling.space' },
       ],
       icon: <FaDatabase className="h-6 w-6" />,
-      experience: '2+ yrs',
+      experience: '3+ yrs',
       category: 'backend',
       initialPosition: createInitialPosition(12, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -329,14 +329,14 @@ export default function PortfolioPage() {
       id: 'prisma',
       title: 'Prisma',
       description: 'Proficient in database access with Prisma ORM.',
-      details: 'I have 1+ years of experience using Prisma to manage and query databases in full-stack applications. Skilled in schema design, migrations, and integrating with PostgreSQL, MySQL, and SQLite.',
+      details: 'I have 2+ years of experience using Prisma to manage and query databases in full-stack applications. Skilled in schema design, migrations, and integrating with PostgreSQL, MySQL, and SQLite.',
       image: 'https://image.thum.io/get/width/600/https://cyber-pulse-orpin.vercel.app',
       links: [
         { name: 'Dynasty 8 Real Estate', url: 'https://www.dynasty8real.estate' },
         { name: 'CyberPulse', url: 'https://cyber-pulse-orpin.vercel.app' },
       ],
       icon: <SiPrisma className="h-6 w-6" />,
-      experience: '1+ yrs',
+      experience: '2+ yrs',
       category: 'backend',
       initialPosition: createInitialPosition(13, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -344,13 +344,13 @@ export default function PortfolioPage() {
       id: 'git',
       title: 'Git',
       description: 'Proficient in version control.',
-      details: 'I have used Git for over 4 years to manage codebases and collaborate on projects.',
+      details: 'I have used Git for over 5 years to manage codebases and collaborate on projects.',
       image: 'https://image.thum.io/get/width/600/https://github.com/Vii-Hunnid',
       links: [
         { name: 'GitHub Profile', url: 'https://github.com/Vii-Hunnid' },
       ],
       icon: <Github className="h-6 w-6" />,
-      experience: '4+ yrs',
+      experience: '5+ yrs',
       category: 'tool',
       initialPosition: createInitialPosition(14, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -358,14 +358,14 @@ export default function PortfolioPage() {
       id: 'vercel',
       title: 'Vercel',
       description: 'Expert in modern deployment workflows.',
-      details: 'I have over 2+ years of experience deploying applications with Vercel, focusing on performance, scalability, and seamless CI/CD integration. Proficient in optimizing Next.js and Nuxt.js apps for production.',
+      details: 'I have over 3+ years of experience deploying applications with Vercel, focusing on performance, scalability, and seamless CI/CD integration. Proficient in optimizing Next.js and Nuxt.js apps for production.',
       image: 'https://image.thum.io/get/width/600/https://www.isaachadebe.dev',
       links: [
         { name: 'My Vercel Projects', url: 'https://vercel.com/vii-hunnids-projects' },
         { name: 'Portfolio Site', url: 'https://www.isaachadebe.dev' },
       ],
       icon: <SiVercel className="h-6 w-6" />,
-      experience: '2+ yrs',
+      experience: '3+ yrs',
       category: 'tool',
       initialPosition: createInitialPosition(15, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },
@@ -383,7 +383,7 @@ export default function PortfolioPage() {
           <path fill="#FA7216" fillRule="evenodd" d="M33.901 0c-18.225 0-33 14.775-33 33v120c0 18.225 14.775 33 33 33h126c18.226 0 33-14.775 33-33V33c0-18.225-14.774-33-33-33h-126zM116 41H73v23H51v17.721a10 10 0 003.095 7.234L73 107H51v22h22v23h43v-23h22v-17.721a10 10 0 00-3.095-7.234L116 86h22V64h-22V41zm0 23v22H83c-5.523 0-10-4.477-10-10V64h43zm0 65H73v-22h33c5.523 0 10 4.477 10 10v12z" clipRule="evenodd" />
         </svg>
       ),
-      experience: '1+ yrs',
+      experience: '2+ yrs',
       category: 'tool',
       initialPosition: createInitialPosition(16, responsiveValues.totalColumns, responsiveValues.startX, responsiveValues.startY, responsiveValues.colWidth, responsiveValues.rowHeight, windowSize.width, windowSize.height)
     },

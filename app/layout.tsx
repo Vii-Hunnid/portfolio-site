@@ -61,7 +61,7 @@ export default function RootLayout({
               data-delay="30"
               data-scroll="70"
               data-position="bottom-right"
-              data-theme="light"
+              data-theme="dark"
               strategy="afterInteractive"
             />
           </main>
